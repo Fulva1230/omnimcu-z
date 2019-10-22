@@ -1,3 +1,4 @@
+#include <stm32f4xx_hal.h>
 #include <stm32f4xx_hal_tim.h>
 
 //
@@ -13,9 +14,9 @@ void EncoderInitialise(int dummy) {
             __TIM2_CLK_ENABLE();
     GPIO_InitTypeDef gpioInitTypeDefO{
             .Mode=GPIO_MODE_AF_OD,
-            .Alternate=GPIO_AF1_TIM2,
             .Pull=GPIO_PULLUP,
-            .Speed=GPIO_SPEED_FREQ_LOW
+            .Speed=GPIO_SPEED_FREQ_LOW,
+            .Alternate=GPIO_AF1_TIM2
     };
 
     GPIO_InitTypeDef gpioInitTypeDef1{gpioInitTypeDefO};
