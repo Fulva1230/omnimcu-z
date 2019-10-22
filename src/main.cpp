@@ -30,7 +30,7 @@ void EncoderInitialise(void) {
     TIM2->SMCR = 0x0003;     // SMS='011' (Encoder mode 3)  < TIM slave mode control register
     TIM2->CCMR1 = 0xF1F1;     // CC1S='01' CC2S='01'         < TIM capture/compare mode register 1
     TIM2->CCMR2 = 0x0000;     //                             < TIM capture/compare mode register 2
-    TIM2->CCER = 0x0011;     // CC1P CC2P                   < TIM capture/compare enable register
+    TIM2->CCER = 0x0011;     // CC1E CC2E                   < TIM capture/compare enable register
     TIM2->PSC = 0x0000;     // Prescaler = (0+1)           < TIM prescaler
     TIM2->ARR = 0xffffffff; // reload at 0xfffffff         < TIM auto-reload register
 
