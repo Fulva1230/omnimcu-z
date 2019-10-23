@@ -1,8 +1,9 @@
 #include <stm32f446xx.h>
 #include <cstdio>
 #include <mbed.h>
+#include "mainhal.cpp"
 
-void EncoderInitialise(void) {
+void EncoderInitialise() {
 
     //TIM2
     // configure GPIO PA15 & PB9 as inputs for Encoder 
@@ -40,9 +41,22 @@ void EncoderInitialise(void) {
 
 
 int main() {
-    EncoderInitialise();
-
-
+//    HAL_StatusTypeDef halStatusTypeDef = EncoderInitialise(11);
+//    switch (halStatusTypeDef) {
+//        case HAL_OK:
+//            printf("ok");
+//            break;
+//        case HAL_BUSY:
+//            printf("busy");
+//            break;
+//        case HAL_ERROR:
+//            printf("error");
+//            break;
+//        case HAL_TIMEOUT:
+//            printf("timeout");
+//            break;
+//    }
+    EncoderInitialise(11);
     unsigned int EncoderPositionTIM2;
 
     while (true) {

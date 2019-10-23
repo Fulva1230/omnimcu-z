@@ -2501,7 +2501,6 @@ ADD_EXECUTABLE(omnimcu-z
         mbed-os/targets/TARGET_STM/watchdog_api.c
         mbed_config.h
         src/main.cpp
-        src/mainhal.cpp
         )
 SET_TARGET_PROPERTIES(omnimcu-z PROPERTIES ENABLE_EXPORTS 1)
 # add syslibs dependencies to create the correct linker order
