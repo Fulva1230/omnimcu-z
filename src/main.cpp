@@ -1,7 +1,7 @@
 #include <stm32f446xx.h>
 #include <cstdio>
 #include <mbed.h>
-#include "mainhal.cpp"
+#include "encoder.cpp"
 
 void EncoderInitialise() {
 
@@ -57,7 +57,7 @@ int main() {
 //            break;
 //    }
     EncoderInitialiseTIM1();
-    EncoderInitialiseTIM2(11);
+    EncoderInitialiseTIM2();
     EncoderInitialiseTIM3();
     EncoderInitialiseTIM4();
     short EncoderPositionTIM2;
