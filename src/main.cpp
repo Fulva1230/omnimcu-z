@@ -41,7 +41,7 @@ void EncoderInitialise() {
 
 
 int main() {
-//    HAL_StatusTypeDef halStatusTypeDef = EncoderInitialise(11);
+//    HAL_StatusTypeDef halStatusTypeDef = EncoderInitialiseTIM2(11);
 //    switch (halStatusTypeDef) {
 //        case HAL_OK:
 //            printf("ok");
@@ -56,14 +56,26 @@ int main() {
 //            printf("timeout");
 //            break;
 //    }
-    EncoderInitialise(11);
-    unsigned int EncoderPositionTIM2;
+    EncoderInitialiseTIM2(11);
+    EncoderInitialiseTIM3();
+    EncoderInitialiseTIM4();
+    short EncoderPositionTIM2;
+    short EncoderPositionTIM3;
+    short EncoderPositionTIM4;
+    short EncoderPositionTIM1;
+
 
     while (true) {
         // Print Encoder Quadrature count to debug port every 0.5 seconds
+        EncoderPositionTIM1 = TIM1->CNT;
         EncoderPositionTIM2 = TIM2->CNT; // Get current position from Encoder
+        EncoderPositionTIM3 = TIM3->CNT;
+        EncoderPositionTIM4 = TIM4->CNT;
 
+        printf("Encoder Position TIM1 %i\r\n  ", EncoderPositionTIM1);
         printf("Encoder Position TIM2 %i\r\n  ", EncoderPositionTIM2);
+        printf("Encoder Position TIM3 %i\r\n  ", EncoderPositionTIM3);
+        printf("Encoder Position TIM4 %i\r\n  ", EncoderPositionTIM4);
 
 
         wait(0.5);
