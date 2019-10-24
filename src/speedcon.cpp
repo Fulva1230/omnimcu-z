@@ -23,14 +23,11 @@ namespace speedcon {
             .Init=baseInitTypeDef
     };
 
-    void interrupt(void) {
-        ++countd;
-        __HAL_TIM_CLEAR_IT(&TIM_HANDLETYPEDEF, TIM_FLAG_UPDATE);
-    }
+
 }
 
 void testInterrupt() {
-    NVIC_SetVector(TIM6_DAC_IRQn, (uint32_t) &speedcon::interrupt);
+    NVIC_SetVector(TIM6_DAC_IRQn, (uint32_t) &HAL_TIM_IRQHandler);
     HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 4, 4);
     HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
     LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM6);
@@ -38,4 +35,11 @@ void testInterrupt() {
 
     HAL_TIM_Base_Init(&speedcon::TIM_HANDLETYPEDEF);
     HAL_TIM_Base_Start_IT(&speedcon::TIM_HANDLETYPEDEF);
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    if (htim->Instance == TIM6) {
+        ++countd;
+        __HAL_TIM_ENABLE_IT(htim, TIM_IT_UPDATE);
+    }
 }
