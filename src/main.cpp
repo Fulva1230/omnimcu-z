@@ -1,7 +1,8 @@
+#include "speedcon.cpp"
+#include "encoder.cpp"
 #include <stm32f446xx.h>
 #include <cstdio>
 #include <mbed.h>
-#include "encoder.cpp"
 
 void EncoderInitialise() {
 
@@ -56,6 +57,7 @@ int main() {
 //            printf("timeout");
 //            break;
 //    }
+    testInterrupt();
     EncoderInitialiseTIM1();
     EncoderInitialiseTIM2();
     EncoderInitialiseTIM3();
@@ -77,7 +79,9 @@ int main() {
         printf("Encoder Position TIM2 %i\r\n  ", EncoderPositionTIM2);
         printf("Encoder Position TIM3 %i\r\n  ", EncoderPositionTIM3);
         printf("Encoder Position TIM4 %i\r\n  ", EncoderPositionTIM4);
-
+        printf("TIM6 COUNTER %i\r\n", TIM6->CNT);
+        printf("TIM6 UIF %i\r\n", TIM6->SR);
+        printf("countd %i\r\n", countd);
 
         ThisThread::sleep_for(500);
     }
