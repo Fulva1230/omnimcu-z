@@ -44,11 +44,11 @@ void EncoderInitialise(int dummy) {
             .EncoderMode=TIM_ENCODERMODE_TI12,
             .IC1Polarity=TIM_ICPOLARITY_RISING,
             .IC1Selection=TIM_ICSELECTION_DIRECTTI,
-            .IC1Prescaler=TIM_ICPSC_DIV1,
+            .IC1Prescaler=TIM_ICPSC_DIV8,
             .IC1Filter=0x0000,
             .IC2Polarity=TIM_ICPOLARITY_RISING,
             .IC2Selection=TIM_ICSELECTION_DIRECTTI,
-            .IC2Prescaler=TIM_ICPSC_DIV1,
+            .IC2Prescaler=TIM_ICPSC_DIV8,
             .IC2Filter=0x0000
     };
     HAL_StatusTypeDef halStatusTypeDef = HAL_TIM_Encoder_Init(
