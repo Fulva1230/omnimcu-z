@@ -56,6 +56,7 @@ int main() {
 //            printf("timeout");
 //            break;
 //    }
+    EncoderInitialiseTIM1();
     EncoderInitialiseTIM2(11);
     EncoderInitialiseTIM3();
     EncoderInitialiseTIM4();
@@ -78,7 +79,7 @@ int main() {
         printf("Encoder Position TIM4 %i\r\n  ", EncoderPositionTIM4);
 
 
-        wait(0.5);
+        ThisThread::sleep_for(500);
     }
 
 }
