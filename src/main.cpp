@@ -3,6 +3,7 @@
 #include <stm32f446xx.h>
 #include <cstdio>
 #include <mbed.h>
+#include <ros.h>
 
 void EncoderInitialise() {
 

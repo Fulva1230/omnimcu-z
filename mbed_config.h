@@ -271,12 +271,19 @@
 #define NVSTORE_ENABLED                                                       1                                                                                                // set by library:nvstore
 #define NVSTORE_MAX_KEYS                                                      16                                                                                               // set by library:nvstore
 #define PPP_DEBUG                                                             0                                                                                                // set by library:ppp
+#define ROSSERIAL_BAUDRATE                                                    115200                                                                                           // set by library:rosserial-mbed
+#define ROSSERIAL_INPUT_BUFFER_SIZE                                           512                                                                                              // set by library:rosserial-mbed
+#define ROSSERIAL_OUTPUT_BUFFER_SIZE                                          512                                                                                              // set by library:rosserial-mbed
+#define ROSSERIAL_RTOS_KERNEL_MS_TICK                                         0                                                                                                // set by library:rosserial-mbed
+#define ROSSERIAL_RX                                                          USBRX                                                                                            // set by library:rosserial-mbed
+#define ROSSERIAL_TX                                                          USBTX                                                                                            // set by library:rosserial-mbed
 // Macros
 #define MBEDTLS_CIPHER_MODE_CTR                                                                                                                                                // defined by library:SecureStore
 #define MBEDTLS_CMAC_C                                                                                                                                                         // defined by library:SecureStore
 #define MBEDTLS_PSA_HAS_ITS_IO                                                                                                                                                 // defined by library:mbed-crypto
 #define NSAPI_PPP_AVAILABLE                                                   (MBED_CONF_PPP_ENABLED || MBED_CONF_LWIP_PPP_ENABLED)                                            // defined by library:ppp
 #define NS_USE_EXTERNAL_MBED_TLS                                                                                                                                               // defined by library:nanostack
+#define ROSSERIAL_VERSION                                                     "1.1.0"                                                                                          // defined by library:rosserial-mbed
 #define UNITY_INCLUDE_CONFIG_H                                                                                                                                                 // defined by library:utest
 #define _RTE_                                                                                                                                                                  // defined by library:rtos
 

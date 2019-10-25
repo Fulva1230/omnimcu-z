@@ -20,9 +20,9 @@ SET(ELF2BIN "arm-none-eabi-objcopy")
 
 # if the environment does not specify build type, set to Debug
 IF (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Debug"
-            CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel."
-            FORCE)
+  set(CMAKE_BUILD_TYPE "Debug"
+          CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel."
+          FORCE)
 ENDIF ()
 
 # here starts the project
@@ -71,7 +71,7 @@ ADD_DEFINITIONS(
         -DDEVICE_USBDEVICE=1
         -DDEVICE_USTICKER=1
         -DDEVICE_WATCHDOG=1
-        -DMBED_BUILD_TIMESTAMP=1571993441.28
+        -DMBED_BUILD_TIMESTAMP=1571998450.44
         -DTARGET_CORTEX
         -DTARGET_CORTEX_M
         -DTARGET_FAMILY_STM32
@@ -103,6 +103,45 @@ ADD_DEFINITIONS(
 )
 INCLUDE_DIRECTORIES(
         src
+        rosserial-mbed/visualization_msgs
+        rosserial-mbed/turtlesim
+        rosserial-mbed/turtle_actionlib
+        rosserial-mbed/trajectory_msgs
+        rosserial-mbed/topic_tools
+        rosserial-mbed/theora_image_transport
+        rosserial-mbed/tf2_msgs
+        rosserial-mbed/tf
+        rosserial-mbed/stereo_msgs
+        rosserial-mbed/std_srvs
+        rosserial-mbed/smach_msgs
+        rosserial-mbed/shape_msgs
+        rosserial-mbed/sensor_msgs
+        rosserial-mbed/rosserial_msgs
+        rosserial-mbed/rosserial_mbed
+        rosserial-mbed/rosserial_arduino
+        rosserial-mbed/rospy_tutorials
+        rosserial-mbed/rosgraph_msgs
+        rosserial-mbed/roscpp_tutorials
+        rosserial-mbed/roscpp
+        rosserial-mbed/ros
+        rosserial-mbed/polled_camera
+        rosserial-mbed/pcl_msgs
+        rosserial-mbed/nodelet
+        rosserial-mbed/nav_msgs
+        rosserial-mbed/map_msgs
+        rosserial-mbed/laser_assembler
+        rosserial-mbed/geometry_msgs
+        rosserial-mbed/gazebo_msgs
+        rosserial-mbed/dynamic_reconfigure
+        rosserial-mbed/diagnostic_msgs
+        rosserial-mbed/control_msgs
+        rosserial-mbed/bond
+        rosserial-mbed/actionlib_tutorials
+        rosserial-mbed/actionlib_msgs
+        rosserial-mbed/actionlib
+        rosserial-mbed/BufferedSerial/Buffer
+        rosserial-mbed/BufferedSerial
+        rosserial-mbed
         mbed-os/targets/TARGET_STM/TARGET_STM32F4/device
         mbed-os/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xE/device
         mbed-os/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xE/TARGET_NUCLEO_F446ZE
@@ -2502,6 +2541,328 @@ ADD_EXECUTABLE(omnimcu-z
         mbed-os/targets/TARGET_STM/watchdog_api.c
         mbed_config.h
         mbed_config.h
+        rosserial-mbed/BufferedSerial/Buffer/Buffer.cpp
+        rosserial-mbed/BufferedSerial/Buffer/Buffer.h
+        rosserial-mbed/BufferedSerial/BufferedSerial.cpp
+        rosserial-mbed/BufferedSerial/BufferedSerial.h
+        rosserial-mbed/MbedHardware.h
+        rosserial-mbed/actionlib/TestAction.h
+        rosserial-mbed/actionlib/TestActionFeedback.h
+        rosserial-mbed/actionlib/TestActionGoal.h
+        rosserial-mbed/actionlib/TestActionResult.h
+        rosserial-mbed/actionlib/TestFeedback.h
+        rosserial-mbed/actionlib/TestGoal.h
+        rosserial-mbed/actionlib/TestRequestAction.h
+        rosserial-mbed/actionlib/TestRequestActionFeedback.h
+        rosserial-mbed/actionlib/TestRequestActionGoal.h
+        rosserial-mbed/actionlib/TestRequestActionResult.h
+        rosserial-mbed/actionlib/TestRequestFeedback.h
+        rosserial-mbed/actionlib/TestRequestGoal.h
+        rosserial-mbed/actionlib/TestRequestResult.h
+        rosserial-mbed/actionlib/TestResult.h
+        rosserial-mbed/actionlib/TwoIntsAction.h
+        rosserial-mbed/actionlib/TwoIntsActionFeedback.h
+        rosserial-mbed/actionlib/TwoIntsActionGoal.h
+        rosserial-mbed/actionlib/TwoIntsActionResult.h
+        rosserial-mbed/actionlib/TwoIntsFeedback.h
+        rosserial-mbed/actionlib/TwoIntsGoal.h
+        rosserial-mbed/actionlib/TwoIntsResult.h
+        rosserial-mbed/actionlib_msgs/GoalID.h
+        rosserial-mbed/actionlib_msgs/GoalStatus.h
+        rosserial-mbed/actionlib_msgs/GoalStatusArray.h
+        rosserial-mbed/actionlib_tutorials/AveragingAction.h
+        rosserial-mbed/actionlib_tutorials/AveragingActionFeedback.h
+        rosserial-mbed/actionlib_tutorials/AveragingActionGoal.h
+        rosserial-mbed/actionlib_tutorials/AveragingActionResult.h
+        rosserial-mbed/actionlib_tutorials/AveragingFeedback.h
+        rosserial-mbed/actionlib_tutorials/AveragingGoal.h
+        rosserial-mbed/actionlib_tutorials/AveragingResult.h
+        rosserial-mbed/actionlib_tutorials/FibonacciAction.h
+        rosserial-mbed/actionlib_tutorials/FibonacciActionFeedback.h
+        rosserial-mbed/actionlib_tutorials/FibonacciActionGoal.h
+        rosserial-mbed/actionlib_tutorials/FibonacciActionResult.h
+        rosserial-mbed/actionlib_tutorials/FibonacciFeedback.h
+        rosserial-mbed/actionlib_tutorials/FibonacciGoal.h
+        rosserial-mbed/actionlib_tutorials/FibonacciResult.h
+        rosserial-mbed/bond/Constants.h
+        rosserial-mbed/bond/Status.h
+        rosserial-mbed/control_msgs/FollowJointTrajectoryAction.h
+        rosserial-mbed/control_msgs/FollowJointTrajectoryActionFeedback.h
+        rosserial-mbed/control_msgs/FollowJointTrajectoryActionGoal.h
+        rosserial-mbed/control_msgs/FollowJointTrajectoryActionResult.h
+        rosserial-mbed/control_msgs/FollowJointTrajectoryFeedback.h
+        rosserial-mbed/control_msgs/FollowJointTrajectoryGoal.h
+        rosserial-mbed/control_msgs/FollowJointTrajectoryResult.h
+        rosserial-mbed/control_msgs/GripperCommand.h
+        rosserial-mbed/control_msgs/GripperCommandAction.h
+        rosserial-mbed/control_msgs/GripperCommandActionFeedback.h
+        rosserial-mbed/control_msgs/GripperCommandActionGoal.h
+        rosserial-mbed/control_msgs/GripperCommandActionResult.h
+        rosserial-mbed/control_msgs/GripperCommandFeedback.h
+        rosserial-mbed/control_msgs/GripperCommandGoal.h
+        rosserial-mbed/control_msgs/GripperCommandResult.h
+        rosserial-mbed/control_msgs/JointControllerState.h
+        rosserial-mbed/control_msgs/JointTolerance.h
+        rosserial-mbed/control_msgs/JointTrajectoryAction.h
+        rosserial-mbed/control_msgs/JointTrajectoryActionFeedback.h
+        rosserial-mbed/control_msgs/JointTrajectoryActionGoal.h
+        rosserial-mbed/control_msgs/JointTrajectoryActionResult.h
+        rosserial-mbed/control_msgs/JointTrajectoryControllerState.h
+        rosserial-mbed/control_msgs/JointTrajectoryFeedback.h
+        rosserial-mbed/control_msgs/JointTrajectoryGoal.h
+        rosserial-mbed/control_msgs/JointTrajectoryResult.h
+        rosserial-mbed/control_msgs/PidState.h
+        rosserial-mbed/control_msgs/PointHeadAction.h
+        rosserial-mbed/control_msgs/PointHeadActionFeedback.h
+        rosserial-mbed/control_msgs/PointHeadActionGoal.h
+        rosserial-mbed/control_msgs/PointHeadActionResult.h
+        rosserial-mbed/control_msgs/PointHeadFeedback.h
+        rosserial-mbed/control_msgs/PointHeadGoal.h
+        rosserial-mbed/control_msgs/PointHeadResult.h
+        rosserial-mbed/control_msgs/QueryCalibrationState.h
+        rosserial-mbed/control_msgs/QueryTrajectoryState.h
+        rosserial-mbed/control_msgs/SingleJointPositionAction.h
+        rosserial-mbed/control_msgs/SingleJointPositionActionFeedback.h
+        rosserial-mbed/control_msgs/SingleJointPositionActionGoal.h
+        rosserial-mbed/control_msgs/SingleJointPositionActionResult.h
+        rosserial-mbed/control_msgs/SingleJointPositionFeedback.h
+        rosserial-mbed/control_msgs/SingleJointPositionGoal.h
+        rosserial-mbed/control_msgs/SingleJointPositionResult.h
+        rosserial-mbed/diagnostic_msgs/AddDiagnostics.h
+        rosserial-mbed/diagnostic_msgs/DiagnosticArray.h
+        rosserial-mbed/diagnostic_msgs/DiagnosticStatus.h
+        rosserial-mbed/diagnostic_msgs/KeyValue.h
+        rosserial-mbed/diagnostic_msgs/SelfTest.h
+        rosserial-mbed/duration.cpp
+        rosserial-mbed/dynamic_reconfigure/BoolParameter.h
+        rosserial-mbed/dynamic_reconfigure/Config.h
+        rosserial-mbed/dynamic_reconfigure/ConfigDescription.h
+        rosserial-mbed/dynamic_reconfigure/DoubleParameter.h
+        rosserial-mbed/dynamic_reconfigure/Group.h
+        rosserial-mbed/dynamic_reconfigure/GroupState.h
+        rosserial-mbed/dynamic_reconfigure/IntParameter.h
+        rosserial-mbed/dynamic_reconfigure/ParamDescription.h
+        rosserial-mbed/dynamic_reconfigure/Reconfigure.h
+        rosserial-mbed/dynamic_reconfigure/SensorLevels.h
+        rosserial-mbed/dynamic_reconfigure/StrParameter.h
+        rosserial-mbed/gazebo_msgs/ApplyBodyWrench.h
+        rosserial-mbed/gazebo_msgs/ApplyJointEffort.h
+        rosserial-mbed/gazebo_msgs/BodyRequest.h
+        rosserial-mbed/gazebo_msgs/ContactState.h
+        rosserial-mbed/gazebo_msgs/ContactsState.h
+        rosserial-mbed/gazebo_msgs/DeleteLight.h
+        rosserial-mbed/gazebo_msgs/DeleteModel.h
+        rosserial-mbed/gazebo_msgs/GetJointProperties.h
+        rosserial-mbed/gazebo_msgs/GetLightProperties.h
+        rosserial-mbed/gazebo_msgs/GetLinkProperties.h
+        rosserial-mbed/gazebo_msgs/GetLinkState.h
+        rosserial-mbed/gazebo_msgs/GetModelProperties.h
+        rosserial-mbed/gazebo_msgs/GetModelState.h
+        rosserial-mbed/gazebo_msgs/GetPhysicsProperties.h
+        rosserial-mbed/gazebo_msgs/GetWorldProperties.h
+        rosserial-mbed/gazebo_msgs/JointRequest.h
+        rosserial-mbed/gazebo_msgs/LinkState.h
+        rosserial-mbed/gazebo_msgs/LinkStates.h
+        rosserial-mbed/gazebo_msgs/ModelState.h
+        rosserial-mbed/gazebo_msgs/ModelStates.h
+        rosserial-mbed/gazebo_msgs/ODEJointProperties.h
+        rosserial-mbed/gazebo_msgs/ODEPhysics.h
+        rosserial-mbed/gazebo_msgs/SetJointProperties.h
+        rosserial-mbed/gazebo_msgs/SetJointTrajectory.h
+        rosserial-mbed/gazebo_msgs/SetLightProperties.h
+        rosserial-mbed/gazebo_msgs/SetLinkProperties.h
+        rosserial-mbed/gazebo_msgs/SetLinkState.h
+        rosserial-mbed/gazebo_msgs/SetModelConfiguration.h
+        rosserial-mbed/gazebo_msgs/SetModelState.h
+        rosserial-mbed/gazebo_msgs/SetPhysicsProperties.h
+        rosserial-mbed/gazebo_msgs/SpawnModel.h
+        rosserial-mbed/gazebo_msgs/WorldState.h
+        rosserial-mbed/geometry_msgs/Accel.h
+        rosserial-mbed/geometry_msgs/AccelStamped.h
+        rosserial-mbed/geometry_msgs/AccelWithCovariance.h
+        rosserial-mbed/geometry_msgs/AccelWithCovarianceStamped.h
+        rosserial-mbed/geometry_msgs/Inertia.h
+        rosserial-mbed/geometry_msgs/InertiaStamped.h
+        rosserial-mbed/geometry_msgs/Point.h
+        rosserial-mbed/geometry_msgs/Point32.h
+        rosserial-mbed/geometry_msgs/PointStamped.h
+        rosserial-mbed/geometry_msgs/Polygon.h
+        rosserial-mbed/geometry_msgs/PolygonStamped.h
+        rosserial-mbed/geometry_msgs/Pose.h
+        rosserial-mbed/geometry_msgs/Pose2D.h
+        rosserial-mbed/geometry_msgs/PoseArray.h
+        rosserial-mbed/geometry_msgs/PoseStamped.h
+        rosserial-mbed/geometry_msgs/PoseWithCovariance.h
+        rosserial-mbed/geometry_msgs/PoseWithCovarianceStamped.h
+        rosserial-mbed/geometry_msgs/Quaternion.h
+        rosserial-mbed/geometry_msgs/QuaternionStamped.h
+        rosserial-mbed/geometry_msgs/Transform.h
+        rosserial-mbed/geometry_msgs/TransformStamped.h
+        rosserial-mbed/geometry_msgs/Twist.h
+        rosserial-mbed/geometry_msgs/TwistStamped.h
+        rosserial-mbed/geometry_msgs/TwistWithCovariance.h
+        rosserial-mbed/geometry_msgs/TwistWithCovarianceStamped.h
+        rosserial-mbed/geometry_msgs/Vector3.h
+        rosserial-mbed/geometry_msgs/Vector3Stamped.h
+        rosserial-mbed/geometry_msgs/Wrench.h
+        rosserial-mbed/geometry_msgs/WrenchStamped.h
+        rosserial-mbed/laser_assembler/AssembleScans.h
+        rosserial-mbed/laser_assembler/AssembleScans2.h
+        rosserial-mbed/map_msgs/GetMapROI.h
+        rosserial-mbed/map_msgs/GetPointMap.h
+        rosserial-mbed/map_msgs/GetPointMapROI.h
+        rosserial-mbed/map_msgs/OccupancyGridUpdate.h
+        rosserial-mbed/map_msgs/PointCloud2Update.h
+        rosserial-mbed/map_msgs/ProjectedMap.h
+        rosserial-mbed/map_msgs/ProjectedMapInfo.h
+        rosserial-mbed/map_msgs/ProjectedMapsInfo.h
+        rosserial-mbed/map_msgs/SaveMap.h
+        rosserial-mbed/map_msgs/SetMapProjections.h
+        rosserial-mbed/nav_msgs/GetMap.h
+        rosserial-mbed/nav_msgs/GetMapAction.h
+        rosserial-mbed/nav_msgs/GetMapActionFeedback.h
+        rosserial-mbed/nav_msgs/GetMapActionGoal.h
+        rosserial-mbed/nav_msgs/GetMapActionResult.h
+        rosserial-mbed/nav_msgs/GetMapFeedback.h
+        rosserial-mbed/nav_msgs/GetMapGoal.h
+        rosserial-mbed/nav_msgs/GetMapResult.h
+        rosserial-mbed/nav_msgs/GetPlan.h
+        rosserial-mbed/nav_msgs/GridCells.h
+        rosserial-mbed/nav_msgs/MapMetaData.h
+        rosserial-mbed/nav_msgs/OccupancyGrid.h
+        rosserial-mbed/nav_msgs/Odometry.h
+        rosserial-mbed/nav_msgs/Path.h
+        rosserial-mbed/nav_msgs/SetMap.h
+        rosserial-mbed/nodelet/NodeletList.h
+        rosserial-mbed/nodelet/NodeletLoad.h
+        rosserial-mbed/nodelet/NodeletUnload.h
+        rosserial-mbed/pcl_msgs/ModelCoefficients.h
+        rosserial-mbed/pcl_msgs/PointIndices.h
+        rosserial-mbed/pcl_msgs/PolygonMesh.h
+        rosserial-mbed/pcl_msgs/Vertices.h
+        rosserial-mbed/polled_camera/GetPolledImage.h
+        rosserial-mbed/ros.h
+        rosserial-mbed/ros/duration.h
+        rosserial-mbed/ros/msg.h
+        rosserial-mbed/ros/node_handle.h
+        rosserial-mbed/ros/publisher.h
+        rosserial-mbed/ros/ros_time.h
+        rosserial-mbed/ros/service_client.h
+        rosserial-mbed/ros/service_server.h
+        rosserial-mbed/ros/subscriber.h
+        rosserial-mbed/roscpp/Empty.h
+        rosserial-mbed/roscpp/GetLoggers.h
+        rosserial-mbed/roscpp/Logger.h
+        rosserial-mbed/roscpp/SetLoggerLevel.h
+        rosserial-mbed/roscpp_tutorials/TwoInts.h
+        rosserial-mbed/rosgraph_msgs/Clock.h
+        rosserial-mbed/rosgraph_msgs/Log.h
+        rosserial-mbed/rosgraph_msgs/TopicStatistics.h
+        rosserial-mbed/rospy_tutorials/AddTwoInts.h
+        rosserial-mbed/rospy_tutorials/BadTwoInts.h
+        rosserial-mbed/rospy_tutorials/Floats.h
+        rosserial-mbed/rospy_tutorials/HeaderString.h
+        rosserial-mbed/rosserial_arduino/Adc.h
+        rosserial-mbed/rosserial_arduino/Test.h
+        rosserial-mbed/rosserial_mbed/Adc.h
+        rosserial-mbed/rosserial_mbed/Test.h
+        rosserial-mbed/rosserial_msgs/Log.h
+        rosserial-mbed/rosserial_msgs/RequestMessageInfo.h
+        rosserial-mbed/rosserial_msgs/RequestParam.h
+        rosserial-mbed/rosserial_msgs/RequestServiceInfo.h
+        rosserial-mbed/rosserial_msgs/TopicInfo.h
+        rosserial-mbed/sensor_msgs/BatteryState.h
+        rosserial-mbed/sensor_msgs/CameraInfo.h
+        rosserial-mbed/sensor_msgs/ChannelFloat32.h
+        rosserial-mbed/sensor_msgs/CompressedImage.h
+        rosserial-mbed/sensor_msgs/FluidPressure.h
+        rosserial-mbed/sensor_msgs/Illuminance.h
+        rosserial-mbed/sensor_msgs/Image.h
+        rosserial-mbed/sensor_msgs/Imu.h
+        rosserial-mbed/sensor_msgs/JointState.h
+        rosserial-mbed/sensor_msgs/Joy.h
+        rosserial-mbed/sensor_msgs/JoyFeedback.h
+        rosserial-mbed/sensor_msgs/JoyFeedbackArray.h
+        rosserial-mbed/sensor_msgs/LaserEcho.h
+        rosserial-mbed/sensor_msgs/LaserScan.h
+        rosserial-mbed/sensor_msgs/MagneticField.h
+        rosserial-mbed/sensor_msgs/MultiDOFJointState.h
+        rosserial-mbed/sensor_msgs/MultiEchoLaserScan.h
+        rosserial-mbed/sensor_msgs/NavSatFix.h
+        rosserial-mbed/sensor_msgs/NavSatStatus.h
+        rosserial-mbed/sensor_msgs/PointCloud.h
+        rosserial-mbed/sensor_msgs/PointCloud2.h
+        rosserial-mbed/sensor_msgs/PointField.h
+        rosserial-mbed/sensor_msgs/Range.h
+        rosserial-mbed/sensor_msgs/RegionOfInterest.h
+        rosserial-mbed/sensor_msgs/RelativeHumidity.h
+        rosserial-mbed/sensor_msgs/SetCameraInfo.h
+        rosserial-mbed/sensor_msgs/Temperature.h
+        rosserial-mbed/sensor_msgs/TimeReference.h
+        rosserial-mbed/shape_msgs/Mesh.h
+        rosserial-mbed/shape_msgs/MeshTriangle.h
+        rosserial-mbed/shape_msgs/Plane.h
+        rosserial-mbed/shape_msgs/SolidPrimitive.h
+        rosserial-mbed/smach_msgs/SmachContainerInitialStatusCmd.h
+        rosserial-mbed/smach_msgs/SmachContainerStatus.h
+        rosserial-mbed/smach_msgs/SmachContainerStructure.h
+        rosserial-mbed/std_srvs/Empty.h
+        rosserial-mbed/std_srvs/SetBool.h
+        rosserial-mbed/std_srvs/Trigger.h
+        rosserial-mbed/stereo_msgs/DisparityImage.h
+        rosserial-mbed/tf/FrameGraph.h
+        rosserial-mbed/tf/tf.h
+        rosserial-mbed/tf/tfMessage.h
+        rosserial-mbed/tf/transform_broadcaster.h
+        rosserial-mbed/tf2_msgs/FrameGraph.h
+        rosserial-mbed/tf2_msgs/LookupTransformAction.h
+        rosserial-mbed/tf2_msgs/LookupTransformActionFeedback.h
+        rosserial-mbed/tf2_msgs/LookupTransformActionGoal.h
+        rosserial-mbed/tf2_msgs/LookupTransformActionResult.h
+        rosserial-mbed/tf2_msgs/LookupTransformFeedback.h
+        rosserial-mbed/tf2_msgs/LookupTransformGoal.h
+        rosserial-mbed/tf2_msgs/LookupTransformResult.h
+        rosserial-mbed/tf2_msgs/TF2Error.h
+        rosserial-mbed/tf2_msgs/TFMessage.h
+        rosserial-mbed/theora_image_transport/Packet.h
+        rosserial-mbed/time.cpp
+        rosserial-mbed/topic_tools/DemuxAdd.h
+        rosserial-mbed/topic_tools/DemuxDelete.h
+        rosserial-mbed/topic_tools/DemuxList.h
+        rosserial-mbed/topic_tools/DemuxSelect.h
+        rosserial-mbed/topic_tools/MuxAdd.h
+        rosserial-mbed/topic_tools/MuxDelete.h
+        rosserial-mbed/topic_tools/MuxList.h
+        rosserial-mbed/topic_tools/MuxSelect.h
+        rosserial-mbed/trajectory_msgs/JointTrajectory.h
+        rosserial-mbed/trajectory_msgs/JointTrajectoryPoint.h
+        rosserial-mbed/trajectory_msgs/MultiDOFJointTrajectory.h
+        rosserial-mbed/trajectory_msgs/MultiDOFJointTrajectoryPoint.h
+        rosserial-mbed/turtle_actionlib/ShapeAction.h
+        rosserial-mbed/turtle_actionlib/ShapeActionFeedback.h
+        rosserial-mbed/turtle_actionlib/ShapeActionGoal.h
+        rosserial-mbed/turtle_actionlib/ShapeActionResult.h
+        rosserial-mbed/turtle_actionlib/ShapeFeedback.h
+        rosserial-mbed/turtle_actionlib/ShapeGoal.h
+        rosserial-mbed/turtle_actionlib/ShapeResult.h
+        rosserial-mbed/turtle_actionlib/Velocity.h
+        rosserial-mbed/turtlesim/Color.h
+        rosserial-mbed/turtlesim/Kill.h
+        rosserial-mbed/turtlesim/Pose.h
+        rosserial-mbed/turtlesim/SetPen.h
+        rosserial-mbed/turtlesim/Spawn.h
+        rosserial-mbed/turtlesim/TeleportAbsolute.h
+        rosserial-mbed/turtlesim/TeleportRelative.h
+        rosserial-mbed/visualization_msgs/ImageMarker.h
+        rosserial-mbed/visualization_msgs/InteractiveMarker.h
+        rosserial-mbed/visualization_msgs/InteractiveMarkerControl.h
+        rosserial-mbed/visualization_msgs/InteractiveMarkerFeedback.h
+        rosserial-mbed/visualization_msgs/InteractiveMarkerInit.h
+        rosserial-mbed/visualization_msgs/InteractiveMarkerPose.h
+        rosserial-mbed/visualization_msgs/InteractiveMarkerUpdate.h
+        rosserial-mbed/visualization_msgs/Marker.h
+        rosserial-mbed/visualization_msgs/MarkerArray.h
+        rosserial-mbed/visualization_msgs/MenuEntry.h
         src/MMotor.cpp
         src/MMotor.h
         src/encoder.h
@@ -2540,8 +2901,8 @@ ELSEIF (LOWERCASE_CMAKE_BUILD_TYPE MATCHES release)
 ELSEIF (LOWERCASE_CMAKE_BUILD_TYPE MATCHES minsizerel)
     SET(MBED_BUILD_PROFILE "mbed-os/tools/profiles/release.json")
 ELSE ()
-    MESSAGE(WARNING "Build type '${CMAKE_BUILD_TYPE}' is unknown, using debug profile")
-    SET(MBED_BUILD_PROFILE "mbed-os/tools/profiles/debug.json")
+  MESSAGE(WARNING "Build type '${CMAKE_BUILD_TYPE}' is unknown, using debug profile")
+  SET(MBED_BUILD_PROFILE "mbed-os/tools/profiles/debug.json")
 ENDIF ()
 
 # optional custom target to build via mbed-cli
@@ -2552,9 +2913,9 @@ ADD_CUSTOM_TARGET(mbed-cli-build
         SOURCES ${SOURCE_FILES} ${SYS_SOURCE_FILES})
 
 IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/project.cmake)
-    INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/project.cmake)
+  INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/project.cmake)
 ELSE ()
-    MESSAGE(STATUS "Add a local project.cmake file to add your own targets.")
+  MESSAGE(STATUS "Add a local project.cmake file to add your own targets.")
 ENDIF ()
 
 # this will take care of binary directories generated by cmake/clion not to confuse the cli build
