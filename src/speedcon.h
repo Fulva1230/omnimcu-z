@@ -51,7 +51,7 @@ void M_TIM_USR_Handler(void) {
                 }
                 motor->cSpeed = motor->cPos - motor->prePos;
                 motor->speedErrorIg += motor->gSpeed - motor->cSpeed;
-                motor->motorConfig.pinena.write(motor->speedErrorIg * INPUT_FACTOR);
+                motor->motorConfig.pinena.write(1 - exp(-motor->speedErrorIg * INPUT_FACTOR));
             }
         }
 
