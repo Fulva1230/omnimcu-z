@@ -71,7 +71,7 @@ ADD_DEFINITIONS(
         -DDEVICE_USBDEVICE=1
         -DDEVICE_USTICKER=1
         -DDEVICE_WATCHDOG=1
-        -DMBED_BUILD_TIMESTAMP=1571654371.94
+        -DMBED_BUILD_TIMESTAMP=1571979813.53
         -DTARGET_CORTEX
         -DTARGET_CORTEX_M
         -DTARGET_FAMILY_STM32
@@ -2500,7 +2500,10 @@ ADD_EXECUTABLE(omnimcu-z
         mbed-os/targets/TARGET_STM/us_ticker_defines.h
         mbed-os/targets/TARGET_STM/watchdog_api.c
         mbed_config.h
+        mbed_config.h
+        src/encoder.h
         src/main.cpp
+        src/speedcon.h
         )
 SET_TARGET_PROPERTIES(omnimcu-z PROPERTIES ENABLE_EXPORTS 1)
 # add syslibs dependencies to create the correct linker order

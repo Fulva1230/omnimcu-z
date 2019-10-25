@@ -11,9 +11,9 @@ volatile int countd = 0;
 
 namespace speedcon {
     const TIM_Base_InitTypeDef baseInitTypeDef{
-            .Prescaler=0x0000U,
+            .Prescaler=0x00FFU,
             .CounterMode=TIM_COUNTERMODE_UP,
-            .Period=0x0FFFU,
+            .Period=0xFFFFU,
             .ClockDivision=TIM_CLOCKDIVISION_DIV1,
             .RepetitionCounter=0x00
     };
@@ -26,9 +26,14 @@ namespace speedcon {
 
 }
 
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+
+}
+
 void testInterrupt() {
-    NVIC_SetVector(TIM6_DAC_IRQn, (uint32_t) &HAL_TIM_IRQHandler);
-    HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 4, 4);
+    NVIC_SetVector(TIM6_DAC_IRQn, (uint32_t) HAL_TIM_IRQHandler);
+    HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+    HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 15, 0);
     HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
     LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM6);
 
@@ -37,9 +42,3 @@ void testInterrupt() {
     HAL_TIM_Base_Start_IT(&speedcon::TIM_HANDLETYPEDEF);
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-    if (htim->Instance == TIM6) {
-        ++countd;
-        __HAL_TIM_ENABLE_IT(htim, TIM_IT_UPDATE);
-    }
-}
