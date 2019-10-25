@@ -40,24 +40,15 @@ void EncoderInitialise() {
 
 }
 
-
 int main() {
-//    HAL_StatusTypeDef halStatusTypeDef = EncoderInitialiseTIM2(11);
-//    switch (halStatusTypeDef) {
-//        case HAL_OK:
-//            printf("ok");
-//            break;
-//        case HAL_BUSY:
-//            printf("busy");
-//            break;
-//        case HAL_ERROR:
-//            printf("error");
-//            break;
-//        case HAL_TIMEOUT:
-//            printf("timeout");
-//            break;
-//    }
-    testInterrupt();
+    MMotor motor{TIM1->CNT,
+                 MotorConfig{
+                         .pin1=DigitalOut{PC_0},
+                         .pin2=DigitalOut{PC_3},
+                         .pinena=PwmOut{PA_3}
+                 }};
+    speedcon::motors[0] = &motor;
+    sppedconInit();
     EncoderInitialiseTIM1();
     EncoderInitialiseTIM2();
     EncoderInitialiseTIM3();
@@ -79,8 +70,7 @@ int main() {
 //        printf("Encoder Position TIM2 %i\r\n  ", EncoderPositionTIM2);
 //        printf("Encoder Position TIM3 %i\r\n  ", EncoderPositionTIM3);
 //        printf("Encoder Position TIM4 %i\r\n  ", EncoderPositionTIM4);
-        printf("TIM7 COUNTER %lu\r\n", TIM7->CNT);
-        printf("countd %i\r\n", countd);
+        printf("%lu\r\n", TIM7->CNT);
 
         ThisThread::sleep_for(500);
     }

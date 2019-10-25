@@ -71,7 +71,7 @@ ADD_DEFINITIONS(
         -DDEVICE_USBDEVICE=1
         -DDEVICE_USTICKER=1
         -DDEVICE_WATCHDOG=1
-        -DMBED_BUILD_TIMESTAMP=1571979813.53
+        -DMBED_BUILD_TIMESTAMP=1571993441.28
         -DTARGET_CORTEX
         -DTARGET_CORTEX_M
         -DTARGET_FAMILY_STM32
@@ -102,6 +102,7 @@ ADD_DEFINITIONS(
         -D__MBED__=1
 )
 INCLUDE_DIRECTORIES(
+        src
         mbed-os/targets/TARGET_STM/TARGET_STM32F4/device
         mbed-os/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xE/device
         mbed-os/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xE/TARGET_NUCLEO_F446ZE
@@ -2501,6 +2502,8 @@ ADD_EXECUTABLE(omnimcu-z
         mbed-os/targets/TARGET_STM/watchdog_api.c
         mbed_config.h
         mbed_config.h
+        src/MMotor.cpp
+        src/MMotor.h
         src/encoder.h
         src/main.cpp
         src/speedcon.h
