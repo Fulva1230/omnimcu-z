@@ -69,20 +69,20 @@ int main() {
 
 
     while (true) {
-        // Print Encoder Quadrature count to debug port every 0.5 seconds
-        EncoderPositionTIM1 = TIM1->CNT;
-        EncoderPositionTIM2 = TIM2->CNT; // Get current position from Encoder
-        EncoderPositionTIM3 = TIM3->CNT;
-        EncoderPositionTIM4 = TIM4->CNT;
-
-        printf("Encoder Position TIM1 %i\r\n  ", EncoderPositionTIM1);
-        printf("Encoder Position TIM2 %i\r\n  ", EncoderPositionTIM2);
-        printf("Encoder Position TIM3 %i\r\n  ", EncoderPositionTIM3);
-        printf("Encoder Position TIM4 %i\r\n  ", EncoderPositionTIM4);
-        printf("TIM6 COUNTER %lu\r\n", TIM6->CNT);
+//        // Print Encoder Quadrature count to debug port every 0.5 seconds
+//        EncoderPositionTIM1 = TIM1->CNT;
+//        EncoderPositionTIM2 = TIM2->CNT; // Get current position from Encoder
+//        EncoderPositionTIM3 = TIM3->CNT;
+//        EncoderPositionTIM4 = TIM4->CNT;
+//
+//        printf("Encoder Position TIM1 %i\r\n  ", EncoderPositionTIM1);
+//        printf("Encoder Position TIM2 %i\r\n  ", EncoderPositionTIM2);
+//        printf("Encoder Position TIM3 %i\r\n  ", EncoderPositionTIM3);
+//        printf("Encoder Position TIM4 %i\r\n  ", EncoderPositionTIM4);
+        printf("TIM7 COUNTER %lu\r\n", TIM7->CNT);
         printf("countd %i\r\n", countd);
 
-        ThisThread::sleep_until(500);
+        ThisThread::sleep_for(500);
     }
 
 }
