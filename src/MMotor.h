@@ -16,17 +16,19 @@ struct MotorConfig {
 
 class MMotor {
 public:
-    MMotor(volatile uint32_t &cPos, MotorConfig motorConfig) : cPos(cPos), motorConfig{motorConfig} {
+    MMotor(volatile short &cPos, MotorConfig motorConfig, double countToRadian)
+            : cPos(cPos), motorConfig{motorConfig}, countToRadian(countToRadian) {
 
     }
 
-    volatile int cSpeed{};
-    volatile uint32_t &cPos;
+    volatile double cSpeed{};
+    volatile short &cPos;
     volatile short prePos{};
-    int gSpeed{};
+    double gSpeed{};
     volatile bool update{};
     volatile int speedErrorIg{};
     MotorConfig motorConfig;
+    double countToRadian;
 };
 
 

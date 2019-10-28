@@ -11,8 +11,9 @@
 #define TIM_USR TIM7
 #define TIM_USR_IRQn TIM7_IRQn
 #define COUNT_OF_MOTORS 4
+#define PERIOD 100 //2 for 1ms
 
-#define INPUT_FACTOR 1
+#define INPUT_FACTOR 0.1
 
 
 namespace speedcon {
@@ -49,7 +50,8 @@ void M_TIM_USR_Handler(void) {
                     }
                     motor->update = false;
                 }
-                motor->cSpeed = motor->cPos - motor->prePos;
+                motor->cSpeed = (motor->cPos - motor->prePos) * motor->countToRadian * 1000.0 / PERIOD * 2;
+                motor->prePos = motor->cPos;
                 motor->speedErrorIg += motor->gSpeed - motor->cSpeed;
                 motor->motorConfig.pinena.write(1 - exp(-motor->speedErrorIg * INPUT_FACTOR));
             }
