@@ -53,7 +53,7 @@ void M_TIM_USR_Handler(void) {
                 motor->cSpeed = (motor->cPos - motor->prePos) * motor->countToRadian * 1000.0 / PERIOD * 2;
                 motor->prePos = motor->cPos;
                 motor->speedErrorIg += motor->gSpeed - motor->cSpeed;
-                motor->motorConfig.pinena.write(abs(motor->speedErrorIg) * INPUT_FACTOR));
+                motor->motorConfig.pinena.write(abs(motor->speedErrorIg) * INPUT_FACTOR);
             }
         }
 
