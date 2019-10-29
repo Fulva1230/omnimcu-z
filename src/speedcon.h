@@ -50,7 +50,8 @@ void M_TIM_USR_Handler(void) {
                     }
                     motor->update = false;
                 }
-                motor->cSpeed = (motor->cPos - motor->prePos) * motor->countToRadian * 1000.0 / PERIOD * 2;
+                motor->cSpeed = (motor->cPos - motor->prePos) * motor->countToRadian * 1000.0 * 2 /
+                                PERIOD;//1000 for unit conversion, 2 for PERIOD conversion
                 motor->prePos = motor->cPos;
                 motor->speedErrorIg += motor->gSpeed - motor->cSpeed;
                 motor->motorConfig.pinena.write(abs(motor->speedErrorIg) * INPUT_FACTOR);
