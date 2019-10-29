@@ -26,7 +26,7 @@ public:
     volatile short prePos{};
     double gSpeed{};
     volatile bool update{};
-    volatile int speedErrorIg{};
+    volatile double speedErrorIg{};
     MotorConfig motorConfig;
     double countToRadian;
 };
