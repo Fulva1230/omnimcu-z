@@ -54,7 +54,7 @@ void M_TIM_USR_Handler(void) {
                                 PERIOD;//1000 for unit conversion, 2 for PERIOD conversion
                 motor->prePos = motor->cPos;
                 motor->speedErrorIg += motor->gSpeed - motor->cSpeed;
-                motor->motorConfig.pinena.write(abs(motor->speedErrorIg) * INPUT_FACTOR);
+                motor->motorConfig.pinena.write(motor->speedErrorIg * INPUT_FACTOR);
             }
         }
 
