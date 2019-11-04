@@ -62,7 +62,7 @@ int main() {
             debug_message.data = std::to_string(wheel.motor.gSpeed).c_str();
             debugros.publish(&debug_message);
         }
-//        updateOdem(nh);
+        updateOdem(nh);
         nh.spinOnce();
         ThisThread::sleep_for(50);
     }
