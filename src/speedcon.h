@@ -13,7 +13,7 @@
 #define COUNT_OF_MOTORS 4
 #define PERIOD 100 //2 for 1ms
 
-#define INPUT_FACTOR 0.1
+#define INPUT_FACTOR 0.01
 
 
 namespace speedcon {
@@ -21,7 +21,7 @@ namespace speedcon {
     const TIM_Base_InitTypeDef baseInitTypeDef{
             .Prescaler=44999,
             .CounterMode=TIM_COUNTERMODE_UP,
-            .Period=100, //2 for 1ms, so 100 means update every 50ms
+            .Period=100, //1 for 1ms, so 100 means update every 50ms
             .ClockDivision=TIM_CLOCKDIVISION_DIV1,
             .RepetitionCounter=0x00
     };
@@ -40,25 +40,16 @@ void M_TIM_USR_Handler(void) {
         __HAL_TIM_CLEAR_FLAG(&speedcon::TIM_HANDLETYPEDEF, TIM_FLAG_UPDATE);
         for (MMotor *motor:speedcon::motors) {
             if (motor != nullptr) {
-                if (motor->update) {
-                    if (motor->gSpeed < 0) {
-                        motor->motorConfig.pin1.write(0);
-                        motor->motorConfig.pin2.write(1);
-                    } else {
-                        motor->motorConfig.pin1.write(1);
-                        motor->motorConfig.pin2.write(0);
-                    }
-                    motor->update = false;
-                }
-                motor->cSpeed = (motor->cPos - motor->prePos) * motor->countToRadian * 1000.0 * 2 /
+                motor->cSpeed = (motor->cPos - motor->prePos) * motor->countToRadian * 1000.0 /
                                 PERIOD;//1000 for unit conversion, 2 for PERIOD conversion
                 motor->prePos = motor->cPos;
-                if (motor->gSpeed >= 0) {
-                    motor->speedErrorIg += motor->gSpeed - motor->cSpeed;
-                } else {
-                    motor->speedErrorIg += -(motor->gSpeed - motor->cSpeed);
-                }
-                motor->motorConfig.pinena.write(motor->speedErrorIg * INPUT_FACTOR);
+                motor->speedErrorIg += motor->gSpeed - motor->cSpeed;
+                double speedErrorIgc = motor->speedErrorIg;
+                speedErrorIgc = min(1.0 / INPUT_FACTOR, speedErrorIgc);
+                speedErrorIgc = max(-1.0 / INPUT_FACTOR, speedErrorIgc);
+                motor->speedErrorIg = speedErrorIgc;
+
+                motor->drive(speedErrorIgc * INPUT_FACTOR);
             }
         }
 
@@ -67,7 +58,7 @@ void M_TIM_USR_Handler(void) {
 
 void sppedconInit() {
     NVIC_SetVector(TIM_USR_IRQn, (uint32_t) M_TIM_USR_Handler);
-    HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+//    HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
     HAL_NVIC_SetPriority(TIM_USR_IRQn, 15, 15);
     HAL_NVIC_EnableIRQ(TIM_USR_IRQn);
     LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM7);

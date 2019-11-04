@@ -1,3 +1,4 @@
+#include <VehicleConfig.h>
 #include <src/speedcon.h>
 #include <src/encoder.h>
 #include <stm32f446xx.h>
@@ -6,7 +7,6 @@
 #include <ros.h>
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/String.h>
-#include <VehicleConfig.h>
 #include <time.h>
 #include <tf/transform_broadcaster.h>
 
@@ -32,6 +32,9 @@ const char odom[] = "/odom";
 
 void motorInit() {
     speedcon::motors[0] = &motor1;
+    speedcon::motors[1] = &motor2;
+    speedcon::motors[2] = &motor3;
+    speedcon::motors[3] = &motor4;
     sppedconInit();
     EncoderInitialiseTIM1();
     EncoderInitialiseTIM2();
@@ -59,7 +62,7 @@ int main() {
             debug_message.data = std::to_string(wheel.motor.gSpeed).c_str();
             debugros.publish(&debug_message);
         }
-        updateOdem(nh);
+//        updateOdem(nh);
         nh.spinOnce();
         ThisThread::sleep_for(50);
     }
@@ -88,9 +91,9 @@ inline Cramer getDisplacement(const Wheel &wheel2, const Wheel &wheel3, double d
     return Cramer{
             .delta = -sinWh2 * cosWh3 + cosWh2 * sinWh3,
             .deltaX = (deltaMotor2An * wheel2.radii + deltaAng * wheel2.disToC) * (-cosWh3) -
-                      (-cosWh2) * (deltaMotor3An * wheel3.radii + deltaAng * wheel3.disToC),
+                    (-cosWh2) * (deltaMotor3An * wheel3.radii + deltaAng * wheel3.disToC),
             .deltaY = sinWh2 * (deltaMotor3An * wheel3.radii + deltaAng * wheel3.disToC) -
-                      (deltaMotor2An * wheel2.radii + deltaAng * wheel2.disToC) * sinWh3
+                    (deltaMotor2An * wheel2.radii + deltaAng * wheel2.disToC) * sinWh3
     };
 }
 

@@ -13,13 +13,13 @@
 #define COUNT_TO_RADIAN 0.02243994753
 
 //The order of motors and wheels is from right-up most with counter clock wise.
-
-MMotor motor1{(short &) TIM1->CNT,
-              MotorConfig{
-                      .pin1=DigitalOut{PC_0},
-                      .pin2=DigitalOut{PC_3},
-                      .pinena=PwmOut{PF_7}
-              }, COUNT_TO_RADIAN}; // for 140 count :1 radian
+MotorConfig motor1Config{
+        .pin1 = DigitalOut{PC_0},
+        .pin2 = DigitalOut{PC_3},
+        .pinena = PE_5
+};
+MMotor motor1{(short &) TIM1->CNT, motor1Config,
+              COUNT_TO_RADIAN}; // for 140 count :1 radian
 
 Wheel wheel1{
         .motor = motor1,
@@ -28,12 +28,15 @@ Wheel wheel1{
         .disToC = DISTANCE_TO_CENTER,
 };
 
-MMotor motor2{(short &) TIM2->CNT,
-              MotorConfig{
-                      .pin1=DigitalOut{PF_3},
-                      .pin2=DigitalOut{PF_5},
-                      .pinena=PwmOut{PF_8}
-              }, COUNT_TO_RADIAN}; // for 140 count :1 radian
+MotorConfig motor2Config{
+        .pin1=DigitalOut{PF_3},
+        .pin2=DigitalOut{PF_5},
+        .pinena=PF_8
+};
+MMotor
+        motor2{
+        (short &) TIM2->CNT, motor2Config,
+        COUNT_TO_RADIAN}; // for 140 count :1 radian
 
 Wheel wheel2{
         .motor = motor2,
@@ -42,13 +45,13 @@ Wheel wheel2{
         .disToC = DISTANCE_TO_CENTER,
 };
 
+MotorConfig motor3Config{
+        .pin1=DigitalOut{PF_1},
+        .pin2=DigitalOut{PF_2},
+        .pinena=PF_9
+};
 
-MMotor motor3{(short &) TIM3->CNT,
-              MotorConfig{
-                      .pin1=DigitalOut{PF_1},
-                      .pin2=DigitalOut{PF_2},
-                      .pinena=PwmOut{PE_5}
-              }, COUNT_TO_RADIAN}; // for 140 count :1 radian
+MMotor motor3{(short &) TIM3->CNT, motor3Config, COUNT_TO_RADIAN}; // for 140 count :1 radian
 
 Wheel wheel3{
         .motor = motor3,
@@ -58,12 +61,12 @@ Wheel wheel3{
 };
 
 
-MMotor motor4{(short &) TIM4->CNT,
-              MotorConfig{
-                      .pin1=DigitalOut{PD_0},
-                      .pin2=DigitalOut{PD_1},
-                      .pinena=PwmOut{PE_6}
-              }, COUNT_TO_RADIAN}; // for 140 count :1 radian
+MotorConfig motor4Config{
+        .pin1=DigitalOut{PD_0},
+        .pin2=DigitalOut{PD_1},
+        .pinena=PE_6
+};
+MMotor motor4{(short &) TIM4->CNT, motor4Config, COUNT_TO_RADIAN}; // for 140 count :1 radian
 
 Wheel wheel4{
         .motor = motor4,
