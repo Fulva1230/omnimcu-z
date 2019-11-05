@@ -58,8 +58,16 @@ int main() {
     while (true) {
         reference_wrapper<Wheel> wheels[] = {wheel1, wheel2, wheel3, wheel4};
         debug_message.data = "";
-        for (Wheel &wheel: wheels) {
-            debug_message.data = std::to_string(wheel.motor.gSpeed).c_str();
+        for (int i = 0; i < 4; ++i) {
+            string message{};
+            message.append(std::to_string(i));
+            message.append("::");
+            message.append("gSpeed:");
+            message.append(std::to_string(wheels[i].get().motor.gSpeed));
+            message.append("  count:");
+            message.append(std::to_string(wheels[i].get().motor.cPos));
+            message.append("\r\n");
+            debug_message.data = message.c_str();
             debugros.publish(&debug_message);
         }
         updateOdem(nh);
@@ -91,9 +99,9 @@ inline Cramer getDisplacement(const Wheel &wheel2, const Wheel &wheel3, double d
     return Cramer{
             .delta = -sinWh2 * cosWh3 + cosWh2 * sinWh3,
             .deltaX = (deltaMotor2An * wheel2.radii + deltaAng * wheel2.disToC) * (-cosWh3) -
-                    (-cosWh2) * (deltaMotor3An * wheel3.radii + deltaAng * wheel3.disToC),
+                      (-cosWh2) * (deltaMotor3An * wheel3.radii + deltaAng * wheel3.disToC),
             .deltaY = sinWh2 * (deltaMotor3An * wheel3.radii + deltaAng * wheel3.disToC) -
-                    (deltaMotor2An * wheel2.radii + deltaAng * wheel2.disToC) * sinWh3
+                      (deltaMotor2An * wheel2.radii + deltaAng * wheel2.disToC) * sinWh3
     };
 }
 
