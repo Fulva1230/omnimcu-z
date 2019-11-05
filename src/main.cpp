@@ -60,13 +60,12 @@ int main() {
         debug_message.data = "";
         for (int i = 0; i < 4; ++i) {
             string message{};
-            message.append(std::to_string(i));
+            message.append(std::to_string(i + 1));
             message.append("::");
             message.append("gSpeed:");
             message.append(std::to_string(wheels[i].get().motor.gSpeed));
             message.append("  count:");
             message.append(std::to_string(wheels[i].get().motor.cPos));
-            message.append("\r\n");
             debug_message.data = message.c_str();
             debugros.publish(&debug_message);
         }
