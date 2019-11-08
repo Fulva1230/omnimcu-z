@@ -21,7 +21,7 @@ namespace speedcon {
     const TIM_Base_InitTypeDef baseInitTypeDef{
             .Prescaler=44999,
             .CounterMode=TIM_COUNTERMODE_UP,
-            .Period=100, //1 for 1ms, so 100 means update every 50ms
+            .Period=50, //1 for 1ms, so 50 means update every 50ms
             .ClockDivision=TIM_CLOCKDIVISION_DIV1,
             .RepetitionCounter=0x00
     };

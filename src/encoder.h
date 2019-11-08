@@ -17,6 +17,7 @@ const GPIO_InitTypeDef ENCODER_GPIO_INIT{
         .Alternate=GPIO_AF1_TIM2
 };
 
+//TODO I should  change the prescaler and period to increase the accuracy of the motor encoder count and prepare for the counter overflow
 const TIM_Base_InitTypeDef ENCODER_BASE_INIT{
         .Prescaler=0x0004U,
         .CounterMode=TIM_COUNTERMODE_UP,
