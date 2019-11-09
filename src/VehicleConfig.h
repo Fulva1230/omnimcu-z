@@ -10,6 +10,7 @@
 
 #define DISTANCE_TO_CENTER 80
 #define RADIUS_OF_WHEEL 40
+//TODO this value should change to fit the new circumstance
 #define COUNT_TO_RADIAN 0.02243994753
 
 //The order of motors and wheels is from right-up most with counter clock wise.

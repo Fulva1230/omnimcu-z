@@ -2,12 +2,10 @@
 #include <src/speedcon.h>
 #include <src/encoder.h>
 #include <stm32f446xx.h>
-#include <cstdio>
 #include <mbed.h>
 #include <ros.h>
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/String.h>
-#include <time.h>
 #include <tf/transform_broadcaster.h>
 
 DigitalOut myled(LED1);
