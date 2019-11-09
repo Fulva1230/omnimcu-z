@@ -43,14 +43,17 @@ void M_TIM_USR_Handler(void) {
                 motor->cSpeed = (motor->cPos - motor->prePos) * motor->countToRadian * 1000.0 /
                                 PERIOD;//1000 for unit conversion, 2 for PERIOD conversion
                 motor->prePos = motor->cPos;
-                motor->speedErrorIg += motor->gSpeed - motor->cSpeed;
-                double speedErrorIgc = motor->speedErrorIg;
-                speedErrorIgc = min(1.0 / INPUT_FACTOR, speedErrorIgc);
-                speedErrorIgc = max(-1.0 / INPUT_FACTOR, speedErrorIgc);
-                motor->speedErrorIg = speedErrorIgc;
-
-                motor->drive(speedErrorIgc * INPUT_FACTOR);
+                //if cSpeed is too big, that's because the counter overflow or underflow
+                if (abs(motor->cSpeed) < 10000) {
+                    motor->speedErrorIg += motor->gSpeed - motor->cSpeed;
+                    double speedErrorIgc = motor->speedErrorIg;
+                    speedErrorIgc = min(1.0 / INPUT_FACTOR, speedErrorIgc);
+                    speedErrorIgc = max(-1.0 / INPUT_FACTOR, speedErrorIgc);
+                    motor->speedErrorIg = speedErrorIgc;
+                    motor->drive(speedErrorIgc * INPUT_FACTOR);
+                }
             }
+
         }
 
     }
