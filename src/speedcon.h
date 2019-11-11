@@ -44,7 +44,7 @@ void M_TIM_USR_Handler(void) {
                                 PERIOD;//1000 for unit conversion, 2 for PERIOD conversion
                 motor->prePos = motor->cPos;
                 //if cSpeed is too big, that's because the counter overflow or underflow
-                if (abs(motor->cSpeed) < 10000) {
+                if (abs(motor->cSpeed) < 100) {
                     motor->speedErrorIg += motor->gSpeed - motor->cSpeed;
                     double speedErrorIgc = motor->speedErrorIg;
                     speedErrorIgc = min(1.0 / INPUT_FACTOR, speedErrorIgc);
