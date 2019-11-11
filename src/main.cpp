@@ -48,19 +48,20 @@ void debuging() {
     while (true) {
         reference_wrapper<Wheel> wheels[] = {wheel1, wheel2, wheel3, wheel4};
         debug_message.data = "";
-        for (int i = 0; i < 1; ++i) {
+        for (int i = 0; i < 4; ++i) {
             string message{};
-//            message.append(std::to_string(i + 1));
-//            message.append("::");
-//            message.append("gSpeed:");
-//            message.append(std::to_string(wheels[i].get().motor.gSpeed));
-//            message.append("  count:");
-//            message.append(std::to_string(wheels[i].get().motor.cPos));
+            message.append(std::to_string(i + 1));
+            message.append("::");
+            message.append("gSpeed:");
+            message.append(std::to_string(wheels[i].get().motor.gSpeed));
+            message.append("  count:");
+            message.append(std::to_string(wheels[i].get().motor.cPos));
+            message.append(" cSpeed:");
             message.append(std::to_string(wheels[i].get().motor.cSpeed));
             debug_message.data = message.c_str();
             debugros.publish(&debug_message);
         }
-        ThisThread::sleep_for(50);
+        ThisThread::sleep_for(1000);
     }
 }
 

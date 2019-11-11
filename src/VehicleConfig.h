@@ -8,10 +8,10 @@
 #include "MMotor.h"
 #include "Wheel.h"
 
-#define DISTANCE_TO_CENTER 80
-#define RADIUS_OF_WHEEL 40
+#define DISTANCE_TO_CENTER 139
+#define RADIUS_OF_WHEEL 50
 //TODO this value should change to fit the new circumstance
-#define COUNT_TO_RADIAN 0.02243994753
+#define COUNT_TO_RADIAN 0.0044879895051282755
 
 //The order of motors and wheels is from right-up most with counter clock wise.
 MotorConfig motor1Config{
