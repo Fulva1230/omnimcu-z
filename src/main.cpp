@@ -51,11 +51,11 @@ void debuging(ros::NodeHandle &nh) {
             string message{};
 //            message.append(std::to_string(i + 1));
 //            message.append("::");
-//            message.append("gSpeed:");
-//            message.append(std::to_string(wheels[i].get().motor.gSpeed));
+        message.append("gSpeed:");
+        message.append(std::to_string(wheels[i].get().motor.gSpeed));
 //            message.append("  count:");
 //            message.append(std::to_string(wheels[i].get().motor.cPos));
-//            message.append(" cSpeed:");
+        message.append(" cSpeed:");
             message.append(std::to_string(wheels[i].get().motor.cSpeed));
         debug_message.frame_id = message.c_str();
         debug_message.stamp = nh.now();
