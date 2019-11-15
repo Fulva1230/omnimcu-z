@@ -5,7 +5,7 @@
 #include <mbed.h>
 #include <ros.h>
 #include <geometry_msgs/Twist.h>
-#include <std_msgs/String.h>
+#include <std_msgs/Header.h>
 #include <tf/transform_broadcaster.h>
 
 DigitalOut myled(LED1);
@@ -21,7 +21,7 @@ void goalUpdate(const geometry_msgs::Twist &twist) {
 }
 
 ros::Subscriber<geometry_msgs::Twist> sub("order", &goalUpdate);
-std_msgs::String debug_message;
+std_msgs::Header debug_message;
 ros::Publisher debugros("mcudebug", &debug_message);
 
 tf::TransformBroadcaster broadcaster;
@@ -44,32 +44,25 @@ Timer timer;
 
 void updateOdem(ros::NodeHandle &nh);
 
-void debuging() {
-    while (true) {
+void debuging(ros::NodeHandle &nh) {
         reference_wrapper<Wheel> wheels[] = {wheel1, wheel2, wheel3, wheel4};
-        debug_message.data = "";
-        for (int i = 0; i < 4; ++i) {
+    debug_message.frame_id = "";
+    for (int i = 0; i < 1; ++i) {
             string message{};
-            message.append(std::to_string(i + 1));
-            message.append("::");
-            message.append("gSpeed:");
-            message.append(std::to_string(wheels[i].get().motor.gSpeed));
-            message.append("  count:");
-            message.append(std::to_string(wheels[i].get().motor.cPos));
-            message.append(" cSpeed:");
+//            message.append(std::to_string(i + 1));
+//            message.append("::");
+//            message.append("gSpeed:");
+//            message.append(std::to_string(wheels[i].get().motor.gSpeed));
+//            message.append("  count:");
+//            message.append(std::to_string(wheels[i].get().motor.cPos));
+//            message.append(" cSpeed:");
             message.append(std::to_string(wheels[i].get().motor.cSpeed));
-            debug_message.data = message.c_str();
+        debug_message.frame_id = message.c_str();
+        debug_message.stamp = nh.now();
             debugros.publish(&debug_message);
         }
-        ThisThread::sleep_for(1000);
-    }
 }
 
-Thread debugThread{&debuging};
-
-void debugInit() {
-    debugThread.start(&debuging);
-}
 
 int main() {
     motorInit();
@@ -79,9 +72,9 @@ int main() {
     nh.advertise(debugros);
     broadcaster.init(nh);
     timer.start();
-    debugInit();
     while (true) {
-        updateOdem(nh);
+//        updateOdem(nh);
+        debuging(nh);
         nh.spinOnce();
         ThisThread::sleep_for(50);
     }
