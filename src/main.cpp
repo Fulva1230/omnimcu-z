@@ -7,6 +7,7 @@
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/Header.h>
 #include <tf/transform_broadcaster.h>
+#include "odem.h"
 
 DigitalOut myled(LED1);
 
@@ -45,10 +46,10 @@ Timer timer;
 void updateOdem(ros::NodeHandle &nh);
 
 void debuging(ros::NodeHandle &nh) {
-        reference_wrapper<Wheel> wheels[] = {wheel1, wheel2, wheel3, wheel4};
+    reference_wrapper<Wheel> wheels[] = {wheel1, wheel2, wheel3, wheel4};
     debug_message.frame_id = "";
     for (int i = 0; i < 1; ++i) {
-            string message{};
+        string message{};
 //            message.append(std::to_string(i + 1));
 //            message.append("::");
         message.append("gSpeed:");
@@ -56,11 +57,11 @@ void debuging(ros::NodeHandle &nh) {
 //            message.append("  count:");
 //            message.append(std::to_string(wheels[i].get().motor.cPos));
         message.append(" cSpeed:");
-            message.append(std::to_string(wheels[i].get().motor.cSpeed));
+        message.append(std::to_string(wheels[i].get().motor.cSpeed));
         debug_message.frame_id = message.c_str();
         debug_message.stamp = nh.now();
-            debugros.publish(&debug_message);
-        }
+        debugros.publish(&debug_message);
+    }
 }
 
 
@@ -80,35 +81,6 @@ int main() {
     }
 }
 
-struct Cramer {
-    double delta;
-    double deltaX;
-    double deltaY;
-
-    double x() {
-        return deltaX / delta;
-    }
-
-    double y() {
-        return deltaY / delta;
-    }
-};
-
-inline Cramer getDisplacement(const Wheel &wheel2, const Wheel &wheel3, double deltaMotor2An, double deltaMotor3An,
-                              double deltaAng) {
-    const double sinWh2 = sin(wheel2.theta);
-    const double cosWh3 = cos(wheel3.theta);
-    const double cosWh2 = cos(wheel2.theta);
-    const double sinWh3 = sin(wheel3.theta);
-    return Cramer{
-            .delta = -sinWh2 * cosWh3 + cosWh2 * sinWh3,
-            .deltaX = (deltaMotor2An * wheel2.radii + deltaAng * wheel2.disToC) * (-cosWh3) -
-                      (-cosWh2) * (deltaMotor3An * wheel3.radii + deltaAng * wheel3.disToC),
-            .deltaY = sinWh2 * (deltaMotor3An * wheel3.radii + deltaAng * wheel3.disToC) -
-                      (deltaMotor2An * wheel2.radii + deltaAng * wheel2.disToC) * sinWh3
-    };
-}
-
 void updateOdem(ros::NodeHandle &nh) {
     static double x{};
     static double y{};
@@ -117,10 +89,6 @@ void updateOdem(ros::NodeHandle &nh) {
     static short wheel2prepos{};
     static short wheel3prepos{};
     static short wheel4prepos{};
-
-    static int preTime = 0;
-    int curTime = timer.read_ms();
-    double delta_time = 0.001 * (curTime - preTime);
 
     double deltaWheel1An = (wheel1.motor.cPos - wheel1prepos) * wheel1.motor.countToRadian;
     wheel1prepos = wheel1.motor.cPos;
@@ -131,21 +99,29 @@ void updateOdem(ros::NodeHandle &nh) {
     double deltaWheel4An = (wheel4.motor.cPos - wheel4prepos) * wheel4.motor.countToRadian;
     wheel4prepos = wheel4.motor.cPos;
 
-    double deltaAng =
-            -(deltaWheel1An + deltaWheel2An + deltaWheel3An + deltaWheel4An) * wheel1.radii / (4 * wheel1.disToC);
-    ang += deltaAng;
-    wheel1.theta += deltaAng;
-    wheel2.theta += deltaAng;
-    wheel3.theta += deltaAng;
-    wheel4.theta += deltaAng;
+    DeltaWheels deltaWheels{
+            .wheel1An = deltaWheel1An,
+            .wheel2An = deltaWheel2An,
+            .wheel3An = deltaWheel3An,
+            .wheel4An = deltaWheel4An
+    };
 
-    Cramer s23 = getDisplacement(wheel2, wheel3, deltaWheel2An, deltaWheel3An, deltaAng);
-    Cramer s41 = getDisplacement(wheel4, wheel1, deltaWheel4An, deltaWheel1An, deltaAng);
+    WheelStats wheelStats{
+            .wheel1roAn = wheel1.theta,
+            .wheel2roAn = wheel2.theta,
+            .wheel3roAn = wheel3.theta,
+            .wheel4roAn = wheel4.theta
+    };
 
-    double deltaX = (s23.x() + s41.x()) / 2;
-    double deltaY = (s23.y() + s41.y()) / 2;
-    x += deltaX;
-    y += deltaY;
+    auto deltaMove = clcMove(deltaWheels, wheelStats, wheel1.disToC, wheel1.radii);
+
+    ang += deltaMove.deltaAngle;
+    wheel1.theta += deltaMove.deltaAngle;
+    wheel2.theta += deltaMove.deltaAngle;
+    wheel3.theta += deltaMove.deltaAngle;
+    wheel4.theta += deltaMove.deltaAngle;
+    x += deltaMove.deltax;
+    y += deltaMove.deltay;
 
     geometry_msgs::TransformStamped t{};
     t.header.frame_id = odom;
@@ -160,6 +136,4 @@ void updateOdem(ros::NodeHandle &nh) {
     t.header.stamp = nh.now();
     broadcaster.sendTransform(t);
 
-
-    preTime = curTime;
 }
