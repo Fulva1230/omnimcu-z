@@ -48,14 +48,14 @@ void updateOdem(ros::NodeHandle &nh);
 void debuging(ros::NodeHandle &nh) {
     reference_wrapper<Wheel> wheels[] = {wheel1, wheel2, wheel3, wheel4};
     debug_message.frame_id = "";
-    for (int i = 0; i < 1; ++i) {
+    for (int i = 0; i < 4; ++i) {
         string message{};
-//            message.append(std::to_string(i + 1));
-//            message.append("::");
+        message.append(std::to_string(i + 1));
+        message.append("::");
         message.append("gSpeed:");
         message.append(std::to_string(wheels[i].get().motor.gSpeed));
-//            message.append("  count:");
-//            message.append(std::to_string(wheels[i].get().motor.cPos));
+        message.append("  count:");
+        message.append(std::to_string(wheels[i].get().motor.cPos));
         message.append(" cSpeed:");
         message.append(std::to_string(wheels[i].get().motor.cSpeed));
         debug_message.frame_id = message.c_str();
@@ -73,11 +73,16 @@ int main() {
     nh.advertise(debugros);
     broadcaster.init(nh);
     timer.start();
+    unsigned long counter{0};
     while (true) {
 //        updateOdem(nh);
-        debuging(nh);
+        if (counter % 20 == 0) {
+            debuging(nh);
+            counter = 0;
+        }
         nh.spinOnce();
         ThisThread::sleep_for(50);
+        ++counter;
     }
 }
 
