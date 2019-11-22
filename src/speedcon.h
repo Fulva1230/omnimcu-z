@@ -15,13 +15,16 @@
 
 #define INPUT_FACTOR 0.01
 
+extern double Kp{};
+extern double Kd{};
+
 
 namespace speedcon {
     MMotor *motors[COUNT_OF_MOTORS];
     const TIM_Base_InitTypeDef baseInitTypeDef{
             .Prescaler=44999,
             .CounterMode=TIM_COUNTERMODE_UP,
-            .Period=50, //1 for 1ms, so 50 means update every 50ms
+            .Period=PERIOD * 2, //2 for 1ms, so 100 means update every 50ms
             .ClockDivision=TIM_CLOCKDIVISION_DIV1,
             .RepetitionCounter=0x00
     };
@@ -29,6 +32,22 @@ namespace speedcon {
     TIM_HandleTypeDef TIM_HANDLETYPEDEF{
             .Instance=TIM_USR,
             .Init=baseInitTypeDef
+    };
+
+    class PDcon {
+    public:
+        void setInput(double input) {
+            preInput = curInput;
+            curInput = input;
+        }
+
+        double getOutput() {
+            return Kp * curInput + Kd * (curInput - preInput) * 1000 / PERIOD;
+        }
+
+    private:
+        double preInput{};
+        double curInput{};
     };
 
 
