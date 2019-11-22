@@ -3,6 +3,7 @@
 //
 
 #include <mbed.h>
+#include "PDController.h"
 
 #ifndef OMNIMCU_Z_MMOTOR_H
 #define OMNIMCU_Z_MMOTOR_H
@@ -44,6 +45,7 @@ public:
     volatile double speedErrorIg{};
     MotorConfig &motorConfig;
     double countToRadian;
+    PDcon pDcon;
 };
 
 

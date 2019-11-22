@@ -75,9 +75,11 @@ int main() {
     timer.start();
     unsigned long counter{0};
     while (true) {
-//        updateOdem(nh);
+        updateOdem(nh);
         if (counter % 20 == 0) {
             debuging(nh);
+            nh.getParam("/gains/Kp", speedcon::Kp);
+            nh.getParam("/gains/Kd", speedcon::Kd);
             counter = 0;
         }
         nh.spinOnce();

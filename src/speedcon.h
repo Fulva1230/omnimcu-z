@@ -7,19 +7,18 @@
 #include <stm32f4xx_hal.h>
 #include <stm32f4xx_hal_tim.h>
 #include <stm32f4xx_ll_bus.h>
+#include "PDController.h"
 
 #define TIM_USR TIM7
 #define TIM_USR_IRQn TIM7_IRQn
 #define COUNT_OF_MOTORS 4
-#define PERIOD 100 //2 for 1ms
+
 
 #define INPUT_FACTOR 0.01
 
-extern double Kp{};
-extern double Kd{};
-
 
 namespace speedcon {
+
     MMotor *motors[COUNT_OF_MOTORS];
     const TIM_Base_InitTypeDef baseInitTypeDef{
             .Prescaler=44999,
@@ -32,22 +31,6 @@ namespace speedcon {
     TIM_HandleTypeDef TIM_HANDLETYPEDEF{
             .Instance=TIM_USR,
             .Init=baseInitTypeDef
-    };
-
-    class PDcon {
-    public:
-        void setInput(double input) {
-            preInput = curInput;
-            curInput = input;
-        }
-
-        double getOutput() {
-            return Kp * curInput + Kd * (curInput - preInput) * 1000 / PERIOD;
-        }
-
-    private:
-        double preInput{};
-        double curInput{};
     };
 
 
@@ -69,7 +52,8 @@ void M_TIM_USR_Handler(void) {
                     speedErrorIgc = min(1.0 / INPUT_FACTOR, speedErrorIgc);
                     speedErrorIgc = max(-1.0 / INPUT_FACTOR, speedErrorIgc);
                     motor->speedErrorIg = speedErrorIgc;
-                    motor->drive(speedErrorIgc * INPUT_FACTOR);
+                    motor->pDcon.setInput(speedErrorIgc);
+                    motor->drive(motor->pDcon.getOutput() * INPUT_FACTOR);
                 }
             }
 
