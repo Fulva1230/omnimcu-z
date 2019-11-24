@@ -17,6 +17,7 @@ SET(CMAKE_C_COMPILER "arm-none-eabi-gcc")
 SET(CMAKE_CXX_COMPILER "arm-none-eabi-g++")
 SET(ELF2BIN "arm-none-eabi-objcopy")
 
+
 # if the environment does not specify build type, set to Debug
 IF (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug"
@@ -70,7 +71,7 @@ ADD_DEFINITIONS(
         -DDEVICE_USBDEVICE=1
         -DDEVICE_USTICKER=1
         -DDEVICE_WATCHDOG=1
-        -DMBED_BUILD_TIMESTAMP=1572237612.82
+        -DMBED_BUILD_TIMESTAMP=1574569788.55
         -DTARGET_CORTEX
         -DTARGET_CORTEX_M
         -DTARGET_FAMILY_STM32
@@ -2864,8 +2865,6 @@ ADD_EXECUTABLE(omnimcu-z
         rosserial-mbed/visualization_msgs/MenuEntry.h
         src/main.cpp
         )
-
-
 SET_TARGET_PROPERTIES(omnimcu-z PROPERTIES ENABLE_EXPORTS 1)
 # add syslibs dependencies to create the correct linker order
 TARGET_LINK_LIBRARIES(omnimcu-z -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys)
