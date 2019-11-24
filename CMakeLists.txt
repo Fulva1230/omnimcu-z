@@ -2868,6 +2868,7 @@ ADD_EXECUTABLE(omnimcu-z
 SET_TARGET_PROPERTIES(omnimcu-z PROPERTIES ENABLE_EXPORTS 1)
 # add syslibs dependencies to create the correct linker order
 TARGET_LINK_LIBRARIES(omnimcu-z -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys)
+INCLUDE_DIRECTORIES(omnimcu-z lib)
 
 add_custom_command(TARGET omnimcu-z PRE_LINK
         COMMAND "arm-none-eabi-cpp" -E -P -Wl,--gc-sections -Wl,--wrap,main -Wl,--wrap,_malloc_r -Wl,--wrap,_free_r -Wl,--wrap,_realloc_r -Wl,--wrap,_memalign_r -Wl,--wrap,_calloc_r -Wl,--wrap,exit -Wl,--wrap,atexit -Wl,-n -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=softfp -DMBED_ROM_START=0x8000000 -DMBED_ROM_SIZE=0x80000 -DMBED_RAM_START=0x20000000 -DMBED_RAM_SIZE=0x20000 -DMBED_BOOT_STACK_SIZE=1024 ./mbed-os/targets/TARGET_STM/TARGET_STM32F4/TARGET_STM32F446xE/device/TOOLCHAIN_GCC_ARM/STM32F446XE.ld -o ${CMAKE_CURRENT_BINARY_DIR}/omnimcu-z_pp.link_script.ld

@@ -7,7 +7,8 @@
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/Header.h>
 #include <tf/transform_broadcaster.h>
-#include "odem.h"
+#include <Odometry.h>
+#include <odem.h>
 
 DigitalOut myled(LED1);
 
@@ -24,6 +25,11 @@ void goalUpdate(const geometry_msgs::Twist &twist) {
 ros::Subscriber<geometry_msgs::Twist> sub("order", &goalUpdate);
 std_msgs::Header debug_message;
 ros::Publisher debugros("mcudebug", &debug_message);
+nav_msgs::Odometry odem_message{};
+ros::Publisher odemPub("/odem", &odem_message);
+double x{};
+double y{};
+double ang{};
 
 tf::TransformBroadcaster broadcaster;
 const char base_link[] = "/base_link";
@@ -71,6 +77,7 @@ int main() {
     nh.initNode();
     myled = nh.subscribe(sub);
     nh.advertise(debugros);
+    nh.advertise(odemPub);
     broadcaster.init(nh);
     timer.start();
     unsigned long counter{0};
@@ -89,13 +96,14 @@ int main() {
 }
 
 void updateOdem(ros::NodeHandle &nh) {
-    static double x{};
-    static double y{};
-    static double ang{};
+    static ros::Time preTime{nh.now() -= ros::Duration{1, 0}};
+    static ros::Time curTime{nh.now()};
     static short wheel1prepos{};
     static short wheel2prepos{};
     static short wheel3prepos{};
     static short wheel4prepos{};
+
+    curTime = nh.now();
 
     double deltaWheel1An = (wheel1.motor.cPos - wheel1prepos) * wheel1.motor.countToRadian;
     wheel1prepos = wheel1.motor.cPos;
@@ -130,6 +138,18 @@ void updateOdem(ros::NodeHandle &nh) {
     x += deltaMove.deltax;
     y += deltaMove.deltay;
 
+    odem_message.header.stamp = curTime;
+    odem_message.pose.pose.position.x = x;
+    odem_message.pose.pose.position.y = y;
+    odem_message.pose.pose.orientation.z = sin(ang) / 2;
+    odem_message.pose.pose.orientation.w = cos(ang);
+    double deltaT = curTime.toSec() - preTime.toSec();
+    odem_message.twist.twist.linear.x = deltaMove.deltax / deltaT;
+    odem_message.twist.twist.linear.y = deltaMove.deltay / deltaT;
+    odem_message.twist.twist.angular.z = deltaMove.deltaAngle / deltaT;
+    odemPub.publish(&odem_message);
+
+
     geometry_msgs::TransformStamped t{};
     t.header.frame_id = odom;
     t.child_frame_id = base_link;
@@ -143,4 +163,5 @@ void updateOdem(ros::NodeHandle &nh) {
     t.header.stamp = nh.now();
     broadcaster.sendTransform(t);
 
+    curTime = preTime;
 }
