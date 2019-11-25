@@ -272,8 +272,8 @@
 #define NVSTORE_MAX_KEYS                                                      16                                                                                               // set by library:nvstore
 #define PPP_DEBUG                                                             0                                                                                                // set by library:ppp
 #define ROSSERIAL_BAUDRATE                                                    115200                                                                                           // set by library:rosserial-mbed
-#define ROSSERIAL_INPUT_BUFFER_SIZE                                           512                                                                                              // set by library:rosserial-mbed
-#define ROSSERIAL_OUTPUT_BUFFER_SIZE                                          512                                                                                              // set by library:rosserial-mbed
+#define ROSSERIAL_INPUT_BUFFER_SIZE                                           1024                                                                                             // set by library:rosserial-mbed
+#define ROSSERIAL_OUTPUT_BUFFER_SIZE                                          1024                                                                                             // set by library:rosserial-mbed
 #define ROSSERIAL_RTOS_KERNEL_MS_TICK                                         0                                                                                                // set by library:rosserial-mbed
 #define ROSSERIAL_RX                                                          USBRX                                                                                            // set by library:rosserial-mbed
 #define ROSSERIAL_TX                                                          USBTX                                                                                            // set by library:rosserial-mbed
