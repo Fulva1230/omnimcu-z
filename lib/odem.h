@@ -78,4 +78,14 @@ clcMove(const DeltaWheels deltaWheels, const WheelStats wheelStats, const uint8_
     };
 }
 
+inline short overflowDiff(short cPos, short prePos) {
+    int diff(cPos - prePos);
+    if (diff > INT16_MAX) {
+        return -(INT32_MAX - diff + 1);
+    } else if (diff < INT16_MIN) {
+        return -(INT32_MIN - diff);
+    }
+    return diff;
+}
+
 #endif //OMNIMCU_Z_ODEM_H

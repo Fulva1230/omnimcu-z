@@ -129,3 +129,18 @@ TEST(testodem, sixth) {
     EXPECT_DOUBLE_EQ(deltaMove.deltax, 0.0);
     EXPECT_DOUBLE_EQ(deltaMove.deltaAngle, 0.0);
 }
+
+TEST(testodom, seventh
+) {
+short ss = overflowDiff(-32768 - 10, -32768);
+EXPECT_EQ(ss,
+-10);
+
+short dd = overflowDiff(32765 + 20, 32765);
+EXPECT_EQ(dd,
+20);
+
+short no = overflowDiff(30, 20);
+EXPECT_EQ(no,
+10);
+}

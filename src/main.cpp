@@ -104,14 +104,13 @@ void updateOdem(ros::NodeHandle &nh) {
     static short wheel4prepos{};
 
     curTime = nh.now();
-
-    double deltaWheel1An = (wheel1.motor.cPos - wheel1prepos) * wheel1.motor.countToRadian;
+    double deltaWheel1An = overflowDiff(wheel1.motor.cPos, wheel1prepos) * wheel1.motor.countToRadian;
     wheel1prepos = wheel1.motor.cPos;
-    double deltaWheel2An = (wheel2.motor.cPos - wheel2prepos) * wheel2.motor.countToRadian;
+    double deltaWheel2An = overflowDiff(wheel2.motor.cPos, wheel2prepos) * wheel2.motor.countToRadian;
     wheel2prepos = wheel2.motor.cPos;
-    double deltaWheel3An = (wheel3.motor.cPos - wheel3prepos) * wheel3.motor.countToRadian;
+    double deltaWheel3An = overflowDiff(wheel3.motor.cPos, wheel3prepos) * wheel3.motor.countToRadian;
     wheel3prepos = wheel3.motor.cPos;
-    double deltaWheel4An = (wheel4.motor.cPos - wheel4prepos) * wheel4.motor.countToRadian;
+    double deltaWheel4An = overflowDiff(wheel4.motor.cPos, wheel4prepos) * wheel4.motor.countToRadian;
     wheel4prepos = wheel4.motor.cPos;
 
     DeltaWheels deltaWheels{
