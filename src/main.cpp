@@ -137,16 +137,16 @@ void updateOdem(ros::NodeHandle &nh) {
     x += deltaMove.deltax;
     y += deltaMove.deltay;
 
-    odem_message.header.stamp = curTime;
-    odem_message.pose.pose.position.x = x;
-    odem_message.pose.pose.position.y = y;
-    odem_message.pose.pose.orientation.z = sin(ang) / 2;
-    odem_message.pose.pose.orientation.w = cos(ang);
-    double deltaT = curTime.toSec() - preTime.toSec();
-    odem_message.twist.twist.linear.x = deltaMove.deltax / deltaT;
-    odem_message.twist.twist.linear.y = deltaMove.deltay / deltaT;
-    odem_message.twist.twist.angular.z = deltaMove.deltaAngle / deltaT;
-    odemPub.publish(&odem_message);
+//    odem_message.header.stamp = curTime;
+//    odem_message.pose.pose.position.x = x;
+//    odem_message.pose.pose.position.y = y;
+//    odem_message.pose.pose.orientation.z = sin(ang / 2);
+//    odem_message.pose.pose.orientation.w = cos(ang / 2);
+//    double deltaT = curTime.toSec() - preTime.toSec();
+//    odem_message.twist.twist.linear.x = deltaMove.deltax / deltaT;
+//    odem_message.twist.twist.linear.y = deltaMove.deltay / deltaT;
+//    odem_message.twist.twist.angular.z = deltaMove.deltaAngle / deltaT;
+//    odemPub.publish(&odem_message);
 
 
     geometry_msgs::TransformStamped t{};
@@ -157,8 +157,8 @@ void updateOdem(ros::NodeHandle &nh) {
     t.transform.translation.z = 0;
     t.transform.rotation.x = 0.0;
     t.transform.rotation.y = 0.0;
-    t.transform.rotation.z = sin(ang) / 2;
-    t.transform.rotation.w = cos(ang);
+    t.transform.rotation.z = sin(ang / 2);
+    t.transform.rotation.w = cos(ang / 2);
     t.header.stamp = nh.now();
     broadcaster.sendTransform(t);
 
