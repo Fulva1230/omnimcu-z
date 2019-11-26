@@ -162,5 +162,5 @@ void updateOdem(ros::NodeHandle &nh) {
 //    t.header.stamp = nh.now();
 //    broadcaster.sendTransform(t);
 
-    curTime = preTime;
+    preTime = curTime;
 }
