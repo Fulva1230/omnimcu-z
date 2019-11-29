@@ -6,11 +6,9 @@
 #define OMNIMCU_Z_PDCONTROLLER_H
 #define PERIOD 100 //2 for 1ms
 
+#include "car_variables.h"
+
 namespace speedcon {
-    extern float Kp[1]{1};
-    extern float Kd[1]{0};
-
-
 }
 class PDcon {
 public:
@@ -20,7 +18,7 @@ public:
     }
 
     double getOutput() {
-        return speedcon::Kp[0] * curInput + speedcon::Kd[0] * (curInput - preInput) * 1000 / PERIOD;
+        return Kp[0] * curInput + Kd[0] * (curInput - preInput) * 1000 / PERIOD;
     }
 
 private:

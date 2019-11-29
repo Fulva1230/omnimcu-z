@@ -1,3 +1,4 @@
+#include "car_variables.h"
 #include <VehicleConfig.h>
 #include <src/speedcon.h>
 #include <src/encoder.h>
@@ -9,27 +10,15 @@
 #include <tf/transform_broadcaster.h>
 #include <Odometry.h>
 #include <odem.h>
+#include <std_msgs/String.h>
 
 DigitalOut myled(LED1);
 
-void goalUpdate(const geometry_msgs::Twist &twist) {
-    reference_wrapper<Wheel> wheels[] = {wheel1, wheel2, wheel3, wheel4};
-    for (Wheel &wheel: wheels) {
-        wheel.motor.gSpeed =
-                (sin(wheel.theta) * twist.linear.x
-                 - cos(wheel.theta) * twist.linear.y
-                 - wheel.disToC * twist.angular.z) / wheel.radii;
-    }
-}
-
-ros::Subscriber<geometry_msgs::Twist> sub("order", &goalUpdate);
+ros::Subscriber<geometry_msgs::Twist> sub("order", &fbGoalUpdate);
 std_msgs::Header debug_message;
 ros::Publisher debugros("mcudebug", &debug_message);
 nav_msgs::Odometry odem_message{};
 ros::Publisher odemPub("/odom", &odem_message);
-double x{};
-double y{};
-double ang{};
 
 tf::TransformBroadcaster broadcaster;
 const char base_link[] = "/base_link";
@@ -40,7 +29,8 @@ void motorInit() {
     speedcon::motors[1] = &motor2;
     speedcon::motors[2] = &motor3;
     speedcon::motors[3] = &motor4;
-    sppedconInit();
+    speedonInit();
+    feedbackconInit();
     EncoderInitialiseTIM1();
     EncoderInitialiseTIM2();
     EncoderInitialiseTIM3();
@@ -76,6 +66,7 @@ int main() {
     ros::NodeHandle nh;
     nh.initNode();
     myled = nh.subscribe(sub);
+    nh.subscribe(mode_change);
     nh.advertise(debugros);
     nh.advertise(odemPub);
     broadcaster.init(nh);
@@ -85,8 +76,8 @@ int main() {
         updateOdem(nh);
         if (counter % 20 == 0) {
             debuging(nh);
-            nh.getParam("/gains/Kp", speedcon::Kp);
-            nh.getParam("/gains/Kd", speedcon::Kd);
+            nh.getParam("/gains/Kp", Kp);
+            nh.getParam("/gains/Kd", Kd);
             counter = 0;
         }
         nh.spinOnce();
