@@ -1,4 +1,5 @@
 #include "car_variables.h"
+#include "CountFunc.h"
 #include <VehicleConfig.h>
 #include <src/speedcon.h>
 #include <src/encoder.h>
@@ -11,16 +12,17 @@
 #include <Odometry.h>
 #include <odem.h>
 #include <std_msgs/String.h>
+#include "debug.h"
 
 DigitalOut myled(LED1);
 
-ros::Subscriber<geometry_msgs::Twist> sub("order", &fbGoalUpdate);
+ros::Subscriber<geometry_msgs::Twist> vel_cmd("order", &fbGoalUpdate);
 std_msgs::Header debug_message;
 ros::Publisher debugros("mcudebug", &debug_message);
 nav_msgs::Odometry odem_message{};
 ros::Publisher odemPub("/odom", &odem_message);
 
-tf::TransformBroadcaster broadcaster;
+tf::TransformBroadcaster tfbroadcaster;
 const char base_link[] = "/base_link";
 const char odom[] = "/odom";
 
@@ -37,52 +39,28 @@ void motorInit() {
     EncoderInitialiseTIM4();
 }
 
-Timer timer;
-
 void updateOdem(ros::NodeHandle &nh);
-
-void debuging(ros::NodeHandle &nh) {
-    reference_wrapper<Wheel> wheels[] = {wheel1, wheel2, wheel3, wheel4};
-    debug_message.frame_id = "";
-    for (int i = 0; i < 4; ++i) {
-        string message{};
-        message.append(std::to_string(i + 1));
-        message.append("::");
-        message.append("gSpeed:");
-        message.append(std::to_string(wheels[i].get().motor.gSpeed));
-        message.append("  count:");
-        message.append(std::to_string(wheels[i].get().motor.cPos));
-        message.append(" cSpeed:");
-        message.append(std::to_string(wheels[i].get().motor.cSpeed));
-        debug_message.frame_id = message.c_str();
-        debug_message.stamp = nh.now();
-        debugros.publish(&debug_message);
-    }
-}
 
 
 int main() {
     motorInit();
     ros::NodeHandle nh;
     nh.initNode();
-    myled = nh.subscribe(sub);
+    myled = nh.subscribe(vel_cmd);
     nh.subscribe(mode_change);
     nh.advertise(debugros);
     nh.advertise(odemPub);
-    broadcaster.init(nh);
-    timer.start();
-    unsigned long counter{0};
+    tfbroadcaster.init(nh);
+    CountFunc intervalexec{[&]() {
+        debuging(nh, g_wheels, 4);
+        nh.getParam("/gains/Kp", Kp);
+        nh.getParam("/gains/Kd", Kd);
+    }, 20};
     while (true) {
         updateOdem(nh);
-        if (counter % 20 == 0) {
-            debuging(nh);
-            nh.getParam("/gains/Kp", Kp);
-            nh.getParam("/gains/Kd", Kd);
-            counter = 0;
-        }
+        intervalexec();
         nh.spinOnce();
         ThisThread::sleep_for(50);
-        ++counter;
     }
 }
 
@@ -151,7 +129,7 @@ void updateOdem(ros::NodeHandle &nh) {
 //    t.transform.rotation.z = sin(ang / 2);
 //    t.transform.rotation.w = cos(ang / 2);
 //    t.header.stamp = nh.now();
-//    broadcaster.sendTransform(t);
+//    tfbroadcaster.sendTransform(t);
 
     preTime = curTime;
 }

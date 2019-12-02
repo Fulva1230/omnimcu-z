@@ -76,5 +76,7 @@ Wheel wheel4{
         .disToC = DISTANCE_TO_CENTER,
 };
 
+std::reference_wrapper<Wheel> g_wheels[] = {wheel1, wheel2, wheel3, wheel4};
+
 
 #endif //OMNIMCU_Z_VEHICLECONFIG_H
