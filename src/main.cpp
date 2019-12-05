@@ -23,8 +23,6 @@ nav_msgs::Odometry odem_message{};
 ros::Publisher odemPub("/odom", &odem_message);
 
 tf::TransformBroadcaster tfbroadcaster;
-const char base_link[] = "/base_link";
-const char odom[] = "/odom";
 
 void motorInit() {
     speedcon::motors[0] = &motor1;
@@ -47,7 +45,7 @@ int main() {
     ros::NodeHandle nh;
     nh.initNode();
     myled = nh.subscribe(vel_cmd);
-    nh.subscribe(mode_change);
+    nh.subscribe(modechange::mode_change);
     nh.advertise(debugros);
     nh.advertise(odemPub);
     tfbroadcaster.init(nh);

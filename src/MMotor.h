@@ -41,7 +41,6 @@ public:
     volatile short &cPos;
     volatile short prePos{};
     double gSpeed{};
-    volatile bool update{true};
     volatile double speedErrorIg{};
     MotorConfig &motorConfig;
     double countToRadian;

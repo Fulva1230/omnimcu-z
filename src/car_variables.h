@@ -9,6 +9,7 @@
 #include <std_msgs/String.h>
 #include <functional>
 #include <vector>
+#include <ros.h>
 
 double x{};
 double y{};
@@ -25,5 +26,12 @@ void mode_change_cb(const std_msgs::String &mode) {
     }
 }
 
-ros::Subscriber<std_msgs::String> mode_change{"mode", mode_change_cb};
+namespace modechange {
+    ros::Subscriber<std_msgs::String> mode_change{"mode", mode_change_cb};
+
+    void initialize(ros::NodeHandle &nh) {
+        nh.subscribe(mode_change);
+    }
+}
+
 #endif //OMNIMCU_Z_CAR_VARIABLES_H

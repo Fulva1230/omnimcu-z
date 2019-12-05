@@ -33,4 +33,13 @@ std_msgs::Header debuging(ros::NodeHandle &nh, reference_wrapper<Wheel> *wheels,
     }
 }
 
+namespace debug_n {
+    std_msgs::Header debug_message;
+    ros::Publisher debugros("mcudebug", &debug_message);
+
+    void initialize(ros::NodeHandle &nh) {
+        nh.advertise(debugros);
+    }
+};
+
 #endif //OMNIMCU_Z_DEBUG_H
