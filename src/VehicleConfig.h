@@ -7,6 +7,8 @@
 
 #include "MMotor.h"
 #include "Wheel.h"
+#include "speedcon.h"
+#include "odom.h"
 
 #define DISTANCE_TO_CENTER 139
 #define RADIUS_OF_WHEEL 50
@@ -77,6 +79,19 @@ Wheel wheel4{
 };
 
 std::reference_wrapper<Wheel> g_wheels[] = {wheel1, wheel2, wheel3, wheel4};
+namespace vehicleconfig {
+    void motorinject() {
+        for (int i = 0; i < 4; ++i) {
+            speedcon::motors[i] = &g_wheels[i].get().motor;
+        }
+        std::vector<Wheel *> wheels{&wheel1, &wheel2, &wheel3, &wheel4};
+        odom::wheelsinject(wheels);
+    }
+
+    void initialize() {
+        motorinject();
+    }
+}
 
 
 #endif //OMNIMCU_Z_VEHICLECONFIG_H

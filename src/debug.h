@@ -6,6 +6,7 @@
 #define OMNIMCU_Z_DEBUG_H
 
 #include <std_msgs/Header.h>
+#include "Wheel.h"
 
 
 string wheelMessage(Wheel &wheel) {
@@ -36,9 +37,14 @@ std_msgs::Header debuging(ros::NodeHandle &nh, reference_wrapper<Wheel> *wheels,
 namespace debug_n {
     std_msgs::Header debug_message;
     ros::Publisher debugros("mcudebug", &debug_message);
+    ros::NodeHandle *nodeHandleLocal;
 
-    void initialize(ros::NodeHandle &nh) {
-        nh.advertise(debugros);
+    void rosnodeInject(ros::NodeHandle &nh) {
+        nodeHandleLocal = &nh;
+    }
+
+    void initialize() {
+        nodeHandleLocal->advertise(debugros);
     }
 };
 

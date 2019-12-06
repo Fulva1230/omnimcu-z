@@ -89,16 +89,6 @@ void feedbackconInit() {
     HAL_TIM_Base_Start_IT(&speedcon::TIM_HANDLETYPEDEF);
 }
 
-void fbGoalUpdate(const geometry_msgs::Twist &twist) {
-    reference_wrapper<Wheel> wheels[] = {wheel1, wheel2, wheel3, wheel4};
-    for (Wheel &wheel: wheels) {
-        wheel.motor.gSpeed =
-                (sin(wheel.theta) * twist.linear.x
-                 - cos(wheel.theta) * twist.linear.y
-                 - wheel.disToC * twist.angular.z) / wheel.radii;
-    }
-}
-
 namespace speedcon {
     void mode_change(const std::string &mode) {
         if (mode == FEEDBACK_MODE) {
@@ -115,4 +105,5 @@ void speedonInit() {
     HAL_NVIC_EnableIRQ(TIM_USR_IRQn);
     LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM7);
     HAL_TIM_Base_Init(&speedcon::TIM_HANDLETYPEDEF);
+    feedbackconInit();
 }

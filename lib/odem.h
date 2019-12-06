@@ -8,9 +8,9 @@
 #include <cmath>
 
 struct DeltaMove {
-    const double deltax;
-    const double deltay;
-    const double deltaAngle;
+    double deltax;
+    double deltay;
+    double deltaAngle;
 };
 struct DeltaWheels {
     const double wheel1An;
@@ -57,7 +57,7 @@ getDisplacement(const uint8_t disToC, const uint8_t wheelRadii, const double whe
     };
 }
 
-DeltaMove
+const DeltaMove
 clcMove(const DeltaWheels deltaWheels, const WheelStats wheelStats, const uint8_t disToC, const uint8_t wheelRadii) {
     double deltaAng =
             -(deltaWheels.wheel1An + deltaWheels.wheel2An + deltaWheels.wheel3An + deltaWheels.wheel4An) * wheelRadii /
