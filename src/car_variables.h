@@ -11,9 +11,6 @@
 #include <vector>
 #include <ros.h>
 
-double x{};
-double y{};
-double ang{};
 std::vector<std::function<void(std::string)>> modesubscribers;
 
 extern float Kp[1]{1};

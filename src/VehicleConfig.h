@@ -9,6 +9,7 @@
 #include "Wheel.h"
 #include "speedcon.h"
 #include "odom.h"
+#include "debug.h"
 
 #define DISTANCE_TO_CENTER 139
 #define RADIUS_OF_WHEEL 50
@@ -86,6 +87,7 @@ namespace vehicleconfig {
         }
         std::vector<Wheel *> wheels{&wheel1, &wheel2, &wheel3, &wheel4};
         odom::wheelsinject(wheels);
+        debug_n::wheelsinject(wheels);
     }
 
     void initialize() {

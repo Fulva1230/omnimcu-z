@@ -21,6 +21,8 @@ public:
         debug_n::rosnodeInject(nh);
         debug_n::initialize();
         vehicleconfig::initialize();
+        odom::rosinject(nh);
+        odom::initialize();
         speedonInit();
     }
 

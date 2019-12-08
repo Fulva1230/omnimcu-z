@@ -12,9 +12,9 @@
 
 namespace odom {
     struct {
-        double x{0};
-        double y{0};
-        double ang{0};
+        double x{0.0};
+        double y{0.0};
+        double ang{0.0};
     } odom;
     struct {
         ros::Time currentTime;
@@ -40,7 +40,7 @@ namespace odom {
 
     private:
         Wheel &wheel;
-        short previousPosition;
+        short previousPosition{};
     };
 
     std::vector<OdomWheelWrapper> localUseWheels;
@@ -49,7 +49,7 @@ namespace odom {
     ros::Publisher odomPub("/odom", &odem_message);
 
 
-    void wheelsinject(std::vector<Wheel *> wheels) {
+    void wheelsinject(const std::vector<Wheel *> &wheels) {
         for (auto wheelp:wheels) {
             localUseWheels.emplace_back(*wheelp);
         }
@@ -60,7 +60,7 @@ namespace odom {
     }
 
     void fbGoalUpdate(const geometry_msgs::Twist &twist) {
-        for (auto odomwheelp: localUseWheels) {
+        for (auto &odomwheelp: localUseWheels) {
             Wheel &wheel = odomwheelp.getWheel();
             wheel.motor.gSpeed =
                     (sin(wheel.theta) * twist.linear.x
@@ -104,12 +104,17 @@ namespace odom {
         return deltaWheels;
     }
 
+    void updateTimeStamp() {
+        timestamps.previousTIme = timestamps.currentTime;
+        timestamps.currentTime = nodeHandlePointer->now();
+    }
+
     void publishOdom() {
         odem_message.header.stamp = timestamps.currentTime;
-        odem_message.pose.pose.position.x = x;
-        odem_message.pose.pose.position.y = y;
-        odem_message.pose.pose.orientation.z = sin(ang / 2);
-        odem_message.pose.pose.orientation.w = cos(ang / 2);
+        odem_message.pose.pose.position.x = odom.x;
+        odem_message.pose.pose.position.y = odom.y;
+        odem_message.pose.pose.orientation.z = sin(odom.ang / 2);
+        odem_message.pose.pose.orientation.w = cos(odom.ang / 2);
         double deltaT = timestamps.currentTime.toSec() - timestamps.previousTIme.toSec();
         odem_message.twist.twist.linear.x = deltaMove.deltax / deltaT;
         odem_message.twist.twist.linear.y = deltaMove.deltay / deltaT;
@@ -118,7 +123,6 @@ namespace odom {
     }
 
     void updateOdom() {
-        timestamps.currentTime = nodeHandlePointer->now();
         DeltaWheels deltaWheels = getDeltaWheelAndUpdate();
         WheelStats wheelStats{
                 .wheel1roAn = localUseWheels[0].getWheel().theta,
@@ -132,7 +136,6 @@ namespace odom {
         odom.x += deltaMove.deltax;
         odom.y += deltaMove.deltay;
         odom.ang += deltaMove.deltaAngle;
-        timestamps.previousTIme = timestamps.currentTime;
     }
 }
 

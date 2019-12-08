@@ -5,22 +5,19 @@
 #include "debug.h"
 #include "Initialization.h"
 
-
-void updateOdem(ros::NodeHandle &nh);
-
-
 int main() {
     ros::NodeHandle nh;
     nh.initNode();
     initializer initializer{nh};
     initializer.initializeEveryThing();
     CountFunc intervalexec{[&]() {
-        debuging(nh, g_wheels, 4);
+        debug_n::debug();
         nh.getParam("/gains/Kp", Kp);
         nh.getParam("/gains/Kd", Kd);
     }, 20};
     while (true) {
         intervalexec();
+        odom::updateTimeStamp();
         odom::updateOdom();
         odom::publishOdom();
         nh.spinOnce();
