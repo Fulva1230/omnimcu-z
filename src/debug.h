@@ -29,7 +29,7 @@ namespace debug_n {
         nodeHandleLocal->advertise(debugros);
     }
 
-    string wheelMessage(Wheel &wheel) {
+    inline string wheelMessage(Wheel &wheel) {
         string message{};
         message.append("gSpeed:");
         message.append(std::to_string(wheel.motor.gSpeed));
@@ -40,24 +40,24 @@ namespace debug_n {
         return message;
     }
 
-    std_msgs::Header debugMsgGenerate() {
+    inline std_msgs::Header debugMsgGenerate(int whichMotor) {
         std_msgs::Header the_debug_message{};
         the_debug_message.frame_id = "";
         std::string message{};
-        for (int i = 0; i < localUseWheels.size(); ++i) {
-            message.append(std::to_string(i + 1));
-            message.append("::");
-            message.append(wheelMessage(localUseWheels[i]));
-            message.append("::");
-        }
+        message.append(std::to_string(whichMotor + 1));
+        message.append("::");
+        message.append(wheelMessage(localUseWheels[whichMotor]));
+        message.append("::");
         the_debug_message.frame_id = message.c_str();
         the_debug_message.stamp = nodeHandleLocal->now();
         return the_debug_message;
     }
 
-    void debug() {
-        debug_message = debugMsgGenerate();
-        debugros.publish(&debug_message);
+    inline void debug() {
+        for (int i = 0; i < localUseWheels.size(); ++i) {
+            debug_message = debugMsgGenerate(i);
+            debugros.publish(&debug_message);
+        }
     }
 };
 

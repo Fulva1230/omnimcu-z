@@ -24,17 +24,17 @@ namespace odom {
 
     class OdomWheelWrapper {
     public:
-        OdomWheelWrapper(Wheel &wheel) : wheel(wheel) {}
+        explicit OdomWheelWrapper(Wheel &wheel) : wheel(wheel) {}
 
-        short getPreviousPosition() {
+        inline short getPreviousPosition() {
             return previousPosition;
         }
 
-        void update() {
+        inline void update() {
             previousPosition = wheel.motor.cPos;
         }
 
-        Wheel &getWheel() const {
+        inline Wheel &getWheel() {
             return wheel;
         }
 
@@ -59,7 +59,7 @@ namespace odom {
         nodeHandlePointer = &nh;
     }
 
-    void fbGoalUpdate(const geometry_msgs::Twist &twist) {
+    inline void fbGoalUpdate(const geometry_msgs::Twist &twist) {
         for (auto &odomwheelp: localUseWheels) {
             Wheel &wheel = odomwheelp.getWheel();
             wheel.motor.gSpeed =
@@ -76,7 +76,7 @@ namespace odom {
         nodeHandlePointer->subscribe(vel_cmd);
     }
 
-    DeltaWheels getDeltaWheelAndUpdate() {
+    inline DeltaWheels getDeltaWheelAndUpdate() {
         Wheel &wheel1 = localUseWheels[0].getWheel();
         double deltaWheel1An =
                 overflowDiff(wheel1.motor.cPos, localUseWheels[0].getPreviousPosition()) * wheel1.motor.countToRadian;
@@ -104,12 +104,12 @@ namespace odom {
         return deltaWheels;
     }
 
-    void updateTimeStamp() {
+    inline void updateTimeStamp() {
         timestamps.previousTIme = timestamps.currentTime;
         timestamps.currentTime = nodeHandlePointer->now();
     }
 
-    void publishOdom() {
+    inline void publishOdom() {
         odem_message.header.stamp = timestamps.currentTime;
         odem_message.pose.pose.position.x = odom.x;
         odem_message.pose.pose.position.y = odom.y;
@@ -122,7 +122,7 @@ namespace odom {
         odomPub.publish(&odem_message);
     }
 
-    void updateOdom() {
+    inline void updateOdom() {
         DeltaWheels deltaWheels = getDeltaWheelAndUpdate();
         WheelStats wheelStats{
                 .wheel1roAn = localUseWheels[0].getWheel().theta,
