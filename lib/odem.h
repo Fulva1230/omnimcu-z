@@ -57,7 +57,7 @@ getDisplacement(const uint8_t disToC, const uint8_t wheelRadii, const double whe
     };
 }
 
-const DeltaMove
+inline const DeltaMove
 clcMove(const DeltaWheels deltaWheels, const WheelStats wheelStats, const uint8_t disToC, const uint8_t wheelRadii) {
     double deltaAng =
             -(deltaWheels.wheel1An + deltaWheels.wheel2An + deltaWheels.wheel3An + deltaWheels.wheel4An) * wheelRadii /

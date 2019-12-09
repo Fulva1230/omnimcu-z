@@ -10,7 +10,7 @@
 
 class CountFunc {
 public:
-    void operator()() {
+    inline void operator()() {
         ++count;
         if (count == limit) {
             count = 0;

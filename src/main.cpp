@@ -10,13 +10,15 @@ int main() {
     nh.initNode();
     initializer initializer{nh};
     initializer.initializeEveryThing();
-    CountFunc intervalexec{[&]() {
-        debug_n::debug();
-        nh.getParam("/gains/Kp", Kp);
-        nh.getParam("/gains/Kd", Kd);
-    }, 20};
+    int counter = 0;
     while (true) {
-        intervalexec();
+        ++counter;
+        if (counter == 20) {
+            counter = 0;
+            debug_n::debug();
+            nh.getParam("/gains/Kp", Kp);
+            nh.getParam("/gains/Kd", Kd);
+        }
         odom::updateTimeStamp();
         odom::updateOdom();
         odom::publishOdom();

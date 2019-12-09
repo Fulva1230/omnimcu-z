@@ -124,6 +124,7 @@ namespace odom {
 
     inline void updateOdom() {
         DeltaWheels deltaWheels = getDeltaWheelAndUpdate();
+
         WheelStats wheelStats{
                 .wheel1roAn = localUseWheels[0].getWheel().theta,
                 .wheel2roAn = localUseWheels[1].getWheel().theta,

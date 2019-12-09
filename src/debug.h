@@ -55,7 +55,21 @@ namespace debug_n {
 
     inline void debug() {
         for (int i = 0; i < localUseWheels.size(); ++i) {
-            debug_message = debugMsgGenerate(i);
+            std::string message{};
+            message.append(std::to_string(i + 1));
+            message.append("::");
+            message.append("gSpeed:");
+            double gSpeed = localUseWheels[i].get().motor.gSpeed;
+            message.append(std::to_string(gSpeed));
+            message.append("  count:");
+            short cPos = localUseWheels[i].get().motor.cPos;
+            message.append(std::to_string(cPos));
+            message.append(" cSpeed:");
+            double cSpeed = localUseWheels[i].get().motor.cSpeed;
+            message.append(std::to_string(cSpeed));
+            message.append("::");
+            debug_message.frame_id = message.c_str();
+            debug_message.stamp = nodeHandleLocal->now();
             debugros.publish(&debug_message);
         }
     }
