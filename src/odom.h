@@ -24,34 +24,40 @@ namespace odom {
 
     class OdomWheelWrapper {
     public:
-        explicit OdomWheelWrapper(Wheel &wheel) : wheel(wheel) {}
+        explicit OdomWheelWrapper(Wheel &wheel) : wheel(&wheel) {}
+
+        OdomWheelWrapper() {}
 
         inline short getPreviousPosition() {
             return previousPosition;
         }
 
         inline void update() {
-            previousPosition = wheel.motor.cPos;
+            previousPosition = wheel->motor.cPos;
         }
 
         inline Wheel &getWheel() {
-            return wheel;
+            return *wheel;
+        }
+
+        inline void setWheel(Wheel &wheel) {
+            this->wheel = &wheel;
         }
 
     private:
-        Wheel &wheel;
+        Wheel *wheel;
         short previousPosition{};
     };
 
-    std::vector<OdomWheelWrapper> localUseWheels;
+    std::array<OdomWheelWrapper, 4> localUseWheels;
     ros::NodeHandle *nodeHandlePointer;
     nav_msgs::Odometry odem_message{};
     ros::Publisher odomPub("/odom", &odem_message);
 
 
-    void wheelsinject(const std::vector<Wheel *> &wheels) {
-        for (auto wheelp:wheels) {
-            localUseWheels.emplace_back(*wheelp);
+    void wheelsinject(Wheel *wheels) {
+        for (int i = 0; i < localUseWheels.size(); ++i) {
+            localUseWheels[i].setWheel(wheels[i]);
         }
     }
 
@@ -77,29 +83,26 @@ namespace odom {
     }
 
     inline DeltaWheels getDeltaWheelAndUpdate() {
+        DeltaWheels deltaWheels{
+
+        };
         Wheel &wheel1 = localUseWheels[0].getWheel();
-        double deltaWheel1An =
+        deltaWheels.wheel1An =
                 overflowDiff(wheel1.motor.cPos, localUseWheels[0].getPreviousPosition()) * wheel1.motor.countToRadian;
         localUseWheels[0].update();
         Wheel &wheel2 = localUseWheels[1].getWheel();
-        double deltaWheel2An =
+        deltaWheels.wheel2An =
                 overflowDiff(wheel2.motor.cPos, localUseWheels[1].getPreviousPosition()) * wheel2.motor.countToRadian;
         localUseWheels[1].update();
         Wheel &wheel3 = localUseWheels[2].getWheel();
-        double deltaWheel3An =
+        deltaWheels.wheel3An =
                 overflowDiff(wheel3.motor.cPos, localUseWheels[2].getPreviousPosition()) * wheel3.motor.countToRadian;
         localUseWheels[2].update();
         Wheel &wheel4 = localUseWheels[3].getWheel();
-        double deltaWheel4An =
+        deltaWheels.wheel4An =
                 overflowDiff(wheel4.motor.cPos, localUseWheels[3].getPreviousPosition()) * wheel4.motor.countToRadian;
         localUseWheels[3].update();
 
-        DeltaWheels deltaWheels{
-                .wheel1An = deltaWheel1An,
-                .wheel2An = deltaWheel2An,
-                .wheel3An = deltaWheel3An,
-                .wheel4An = deltaWheel4An
-        };
 
         return deltaWheels;
     }

@@ -13,10 +13,10 @@ struct DeltaMove {
     double deltaAngle;
 };
 struct DeltaWheels {
-    const double wheel1An;
-    const double wheel2An;
-    const double wheel3An;
-    const double wheel4An;
+    double wheel1An;
+    double wheel2An;
+    double wheel3An;
+    double wheel4An;
 };
 struct WheelStats {
     const double wheel1roAn;

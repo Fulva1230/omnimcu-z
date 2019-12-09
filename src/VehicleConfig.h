@@ -79,13 +79,13 @@ Wheel wheel4{
         .disToC = DISTANCE_TO_CENTER,
 };
 
-std::reference_wrapper<Wheel> g_wheels[] = {wheel1, wheel2, wheel3, wheel4};
 namespace vehicleconfig {
+    Wheel wheels[] = {wheel1, wheel2, wheel3, wheel4};
+
     void motorinject() {
         for (int i = 0; i < 4; ++i) {
-            speedcon::motors[i] = &g_wheels[i].get().motor;
+            speedcon::motors[i] = &wheels[i].motor;
         }
-        std::vector<Wheel *> wheels{&wheel1, &wheel2, &wheel3, &wheel4};
         odom::wheelsinject(wheels);
         debug_n::wheelsinject(wheels);
     }

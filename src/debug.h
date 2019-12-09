@@ -13,12 +13,10 @@ namespace debug_n {
     std_msgs::Header debug_message;
     ros::Publisher debugros("mcudebug", &debug_message);
     ros::NodeHandle *nodeHandleLocal;
-    vector <std::reference_wrapper<Wheel>> localUseWheels;
+    Wheel *localUseWheels;
 
-    void wheelsinject(const std::vector<Wheel *> &wheels) {
-        for (auto wheelp:wheels) {
-            localUseWheels.emplace_back(*wheelp);
-        }
+    void wheelsinject(Wheel *wheels) {
+        localUseWheels = wheels;
     }
 
     void rosnodeInject(ros::NodeHandle &nh) {
@@ -54,7 +52,7 @@ namespace debug_n {
     }
 
     inline void debug() {
-        for (int i = 0; i < localUseWheels.size(); ++i) {
+        for (int i = 0; i < 4; ++i) {
             debug_message = debugMsgGenerate(i);
             debugros.publish(&debug_message);
         }
