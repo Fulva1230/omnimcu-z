@@ -129,6 +129,8 @@ void updateOdem(ros::NodeHandle &nh) {
     y += deltaMove.deltay;
 
     odem_message.header.stamp = curTime;
+    odem_message.header.frame_id = odom;
+    odem_message.child_frame_id = base_link;
     odem_message.pose.pose.position.x = x;
     odem_message.pose.pose.position.y = y;
     odem_message.pose.pose.orientation.z = sin(ang / 2);

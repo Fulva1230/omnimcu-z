@@ -8,7 +8,7 @@
 #include "MMotor.h"
 #include "Wheel.h"
 
-#define DISTANCE_TO_CENTER 139
+#define DISTANCE_TO_CENTER 197
 #define RADIUS_OF_WHEEL 50
 //TODO this value should change to fit the new circumstance
 #define COUNT_TO_RADIAN 0.0044879895051282755
