@@ -12,6 +12,8 @@
 #include <odem.h>
 #include <std_msgs/String.h>
 
+#define MM_TO_M 0.001
+
 DigitalOut myled(LED1);
 
 ros::Subscriber<geometry_msgs::Twist> sub("order", &fbGoalUpdate);
@@ -125,8 +127,8 @@ void updateOdem(ros::NodeHandle &nh) {
     wheel2.theta += deltaMove.deltaAngle;
     wheel3.theta += deltaMove.deltaAngle;
     wheel4.theta += deltaMove.deltaAngle;
-    x += deltaMove.deltax;
-    y += deltaMove.deltay;
+    x += deltaMove.deltax * MM_TO_M;
+    y += deltaMove.deltay * MM_TO_M;
 
     odem_message.header.stamp = curTime;
     odem_message.header.frame_id = odom;
@@ -136,24 +138,10 @@ void updateOdem(ros::NodeHandle &nh) {
     odem_message.pose.pose.orientation.z = sin(ang / 2);
     odem_message.pose.pose.orientation.w = cos(ang / 2);
     double deltaT = curTime.toSec() - preTime.toSec();
-    odem_message.twist.twist.linear.x = deltaMove.deltax / deltaT;
-    odem_message.twist.twist.linear.y = deltaMove.deltay / deltaT;
+    odem_message.twist.twist.linear.x = deltaMove.deltax * MM_TO_M / deltaT;
+    odem_message.twist.twist.linear.y = deltaMove.deltay * MM_TO_M / deltaT;
     odem_message.twist.twist.angular.z = deltaMove.deltaAngle / deltaT;
     odemPub.publish(&odem_message);
-
-
-//    geometry_msgs::TransformStamped t{};
-//    t.header.frame_id = odom;
-//    t.child_frame_id = base_link;
-//    t.transform.translation.x = x;
-//    t.transform.translation.y = y;
-//    t.transform.translation.z = 0;
-//    t.transform.rotation.x = 0.0;
-//    t.transform.rotation.y = 0.0;
-//    t.transform.rotation.z = sin(ang / 2);
-//    t.transform.rotation.w = cos(ang / 2);
-//    t.header.stamp = nh.now();
-//    broadcaster.sendTransform(t);
 
     preTime = curTime;
 }
