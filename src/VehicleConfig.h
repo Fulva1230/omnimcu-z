@@ -24,7 +24,7 @@ MMotor motor1{(short &) TIM1->CNT, motor1Config,
 
 Wheel wheel1{
         .motor = motor1,
-        .theta = M_PI * 1 / 4,
+        .theta = M_PI * 7 / 4,
         .radii = RADIUS_OF_WHEEL,
         .disToC = DISTANCE_TO_CENTER,
 };
@@ -41,7 +41,7 @@ MMotor
 
 Wheel wheel2{
         .motor = motor2,
-        .theta = M_PI * 3 / 4,
+        .theta = M_PI * 1 / 4,
         .radii = RADIUS_OF_WHEEL,
         .disToC = DISTANCE_TO_CENTER,
 };
@@ -56,7 +56,7 @@ MMotor motor3{(short &) TIM3->CNT, motor3Config, COUNT_TO_RADIAN}; // for 140 co
 
 Wheel wheel3{
         .motor = motor3,
-        .theta = M_PI * 5 / 4,
+        .theta = M_PI * 3 / 4,
         .radii = RADIUS_OF_WHEEL,
         .disToC = DISTANCE_TO_CENTER,
 };
@@ -71,7 +71,7 @@ MMotor motor4{(short &) TIM4->CNT, motor4Config, COUNT_TO_RADIAN}; // for 140 co
 
 Wheel wheel4{
         .motor = motor4,
-        .theta = M_PI * 7 / 4,
+        .theta = M_PI * 5 / 4,
         .radii = RADIUS_OF_WHEEL,
         .disToC = DISTANCE_TO_CENTER,
 };
